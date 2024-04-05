@@ -10,7 +10,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       status: "live",
     }
   );
-  const [errors, setErrors] = useState([""]);
+  const [errors, setErrors] = useState("");
 
   const validateForm = () => {
     if (formState.page && formState.description && formState.status) {
@@ -29,10 +29,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   };
 
   const handleChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -55,22 +52,22 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         <form>
           <div className="form-group">
             <label htmlFor="page">Page</label>
-            <input name="page" value={formState.page} onChange={handleChange} />
+            <input name="page" onChange={handleChange} value={formState.page} />
           </div>
           <div className="form-group">
             <label htmlFor="description">Description</label>
-            <input
+            <textarea
               name="description"
-              value={formState.description}
               onChange={handleChange}
+              value={formState.description}
             />
           </div>
           <div className="form-group">
             <label htmlFor="status">Status</label>
             <select
               name="status"
-              value={formState.status}
-              onChange={handleChange}>
+              onChange={handleChange}
+              value={formState.status}>
               <option value="live">Live</option>
               <option value="draft">Draft</option>
               <option value="error">Error</option>
