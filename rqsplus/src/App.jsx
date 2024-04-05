@@ -17,6 +17,10 @@ function App() {
     setRows(rows.filter((_, idx) => idx !== targetIndex));
   };
 
+  const handleSubmit = (newRow) => {
+    setRows([...rows, newRow]);
+  };
+
   return (
     <div className="App">
       <Table rows={rows} deleteRow={handleDeleteRow} />
@@ -28,6 +32,7 @@ function App() {
           closeModal={() => {
             setModalOpen(false);
           }}
+          onSubmit={handleSubmit}
         />
       )}
     </div>

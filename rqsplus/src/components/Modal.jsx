@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import "./Modal.css";
 
-export const Modal = ({ closeModal }) => {
+export const Modal = ({ closeModal, onSubmit }) => {
   const [formState, setFormState] = useState({
     page: "",
     description: "",
-    status: "Live",
+    status: "live",
   });
 
   const handleChange = (e) => {
@@ -19,7 +19,9 @@ export const Modal = ({ closeModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(formState);
+    onSubmit(formState);
+
+    closeModal();
   };
 
   return (
