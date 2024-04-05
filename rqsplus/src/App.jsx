@@ -12,18 +12,33 @@ function App() {
     { page: "Page 2", description: "this is 2nd page", status: "draft" },
     { page: "Page 3", description: "this is 3rd page", status: "error" },
   ]);
+  const [rowToEdit, setRowToEdit] = useState(null);
 
   const handleDeleteRow = (targetIndex) => {
     setRows(rows.filter((_, idx) => idx !== targetIndex));
   };
 
+  const handleEditRow = (idx) => {
+    setRowToEdit(idx);
+
+    setModalOpen(true);
+  };
+
   const handleSubmit = (newRow) => {
-    setRows([...rows, newRow]);
+    rowToEdit === null
+      ? setRows([...rows, newRow])
+      : setRows(
+          rows.map((currRow, idx) => {
+            if (idx !== rowToEdit) return currRow;
+
+            return newRow;
+          })
+        );
   };
 
   return (
     <div className="App">
-      <Table rows={rows} deleteRow={handleDeleteRow} />
+      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
       <button className="btn" onClick={() => setModalOpen(true)}>
         Add
       </button>
@@ -33,6 +48,7 @@ function App() {
             setModalOpen(false);
           }}
           onSubmit={handleSubmit}
+          defaultValue={rowToEdit !== null && rows[rowToEdit]}
         />
       )}
     </div>

@@ -2,12 +2,31 @@ import React, { useState } from "react";
 
 import "./Modal.css";
 
-export const Modal = ({ closeModal, onSubmit }) => {
-  const [formState, setFormState] = useState({
-    page: "",
-    description: "",
-    status: "live",
-  });
+export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+  const [formState, setFormState] = useState(
+    defaultValue || {
+      page: "",
+      description: "",
+      status: "live",
+    }
+  );
+  const [errors, setErrors] = useState([""]);
+
+  const validateForm = () => {
+    if (formState.page && formState.description && formState.status) {
+      setErrors("");
+      return true;
+    } else {
+      let errorFields = [];
+      for (const [key, value] of Object.entries(formState)) {
+        if (!value) {
+          errorFields.push(key);
+        }
+      }
+      setErrors(errorFields.join(", "));
+      return false;
+    }
+  };
 
   const handleChange = (e) => {
     setFormState({
@@ -18,6 +37,8 @@ export const Modal = ({ closeModal, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     onSubmit(formState);
 
@@ -55,6 +76,7 @@ export const Modal = ({ closeModal, onSubmit }) => {
               <option value="error">Error</option>
             </select>
           </div>
+          {errors && <div className="error">{`Please include: ${errors}`}</div>}
           <button type="submit" className="btn" onClick={handleSubmit}>
             Submit
           </button>
