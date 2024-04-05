@@ -1,5 +1,5 @@
-import { Table } from "./components/Table";
 import { Modal } from "./components/Modal";
+import { Table } from "./components/Table";
 import "./App.css";
 
 function App() {
