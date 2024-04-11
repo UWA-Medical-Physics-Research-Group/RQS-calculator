@@ -36,6 +36,10 @@ function App() {
       totalScore += 1;
     }
 
+    if (newRow.phantomStudy === "Yes (+1)") {
+      totalScore += 1;
+    }
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null

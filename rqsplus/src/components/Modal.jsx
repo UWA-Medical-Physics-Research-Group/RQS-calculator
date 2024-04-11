@@ -8,6 +8,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       name: "",
       imageProtocolQuality: [],
       multipleSegmentations: "",
+      phantomStudy: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -26,7 +27,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         (formState.imageProtocolQuality.length > 0 &&
           !formState.imageProtocolQuality.includes("none (0)"))) &&
       formState.multipleSegmentations &&
-      ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations)
+      ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
+      ["Yes (+1)", "No (0)"].includes(formState.phantomStudy)
     ) {
       setErrors("");
       return true;
@@ -43,6 +45,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.multipleSegmentations) {
         errorFields.push("multipleSegmentations");
+      }
+
+      if (!formState.phantomStudy) {
+        errorFields.push("phantomStudy");
       }
 
       setErrors(errorFields.join(", "));
@@ -137,9 +143,20 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="No (0)">No (0)</option>
             </select>
           </div>
+          <div className="form-group">
+            <label htmlFor="phantomStudy">Phantom study on all Scanners?</label>
+            <select
+              name="phantomStudy"
+              onChange={handleChange}
+              value={formState.phantomStudy}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
+          </div>
           {errors && (
             <div className="error">
-              {errors === "imageProtocolQuality"
+              {errors === "phantomStudy"
                 ? "Please select at least one imaging protocol"
                 : `Please include: ${errors}`}
             </div>

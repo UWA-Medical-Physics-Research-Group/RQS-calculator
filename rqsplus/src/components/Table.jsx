@@ -13,6 +13,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Paper Name</th>
             <th className="expand">Image Protocol Quality</th>
             <th>Multiple Segmentations?</th>
+            <th>Phantom Study on all Scanners?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -36,6 +37,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                   ))}
                 </td>
                 <td>{row.multipleSegmentations}</td>
+                <td>{row.phantomStudy}</td>
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">
