@@ -42,17 +42,32 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     const { name, value, checked } = e.target;
 
     if (name === "imageProtocolQuality") {
-      if (checked) {
-        setFormState({
-          ...formState,
-          imageProtocolQuality: [...formState.imageProtocolQuality, value],
-        });
+      if (value === "none (0)") {
+        if (checked) {
+          setFormState({
+            ...formState,
+            imageProtocolQuality: [value],
+          });
+        } else {
+          setFormState({
+            ...formState,
+            imageProtocolQuality: [],
+          });
+        }
       } else {
+        let updatedProtocols;
+        if (checked) {
+          updatedProtocols = formState.imageProtocolQuality.includes("none (0)")
+            ? [value]
+            : [...formState.imageProtocolQuality, value];
+        } else {
+          updatedProtocols = formState.imageProtocolQuality.filter(
+            (protocol) => protocol !== value
+          );
+        }
         setFormState({
           ...formState,
-          imageProtocolQuality: formState.imageProtocolQuality.filter(
-            (protocol) => protocol !== value
-          ),
+          imageProtocolQuality: updatedProtocols,
         });
       }
     } else {
