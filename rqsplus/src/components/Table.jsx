@@ -24,7 +24,9 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             return (
               <tr key={idx}>
                 <td>{row.name}</td>
-                <td className="expand">{row.imageProtocolQuality}</td>
+                <td className="expand">
+                  {row.imageProtocolQuality.join(", ")}
+                </td>
                 <td>
                   <span className={`label label-${row.status}`}>
                     {statusText}

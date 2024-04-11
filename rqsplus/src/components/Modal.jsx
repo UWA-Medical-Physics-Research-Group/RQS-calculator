@@ -13,13 +13,17 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [errors, setErrors] = useState("");
 
   const protocols = [
-    "protocols well documented",
-    "public protocol used",
-    "none",
+    "protocols well documented (+1)",
+    "public protocol used  (+1)",
+    "none (0)",
   ];
 
   const validateForm = () => {
-    if (formState.name && formState.imageProtocolQuality && formState.status) {
+    if (
+      formState.name &&
+      formState.imageProtocolQuality.length &&
+      formState.status
+    ) {
       setErrors("");
       return true;
     } else {
@@ -35,7 +39,25 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   };
 
   const handleChange = (e) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    const { name, value, checked } = e.target;
+
+    if (name === "imageProtocolQuality") {
+      if (checked) {
+        setFormState({
+          ...formState,
+          imageProtocolQuality: [...formState.imageProtocolQuality, value],
+        });
+      } else {
+        setFormState({
+          ...formState,
+          imageProtocolQuality: formState.imageProtocolQuality.filter(
+            (protocol) => protocol !== value
+          ),
+        });
+      }
+    } else {
+      setFormState({ ...formState, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -61,18 +83,19 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             <input name="name" onChange={handleChange} value={formState.name} />
           </div>
           <div className="form-group">
-            <label htmlFor="imageProtocolQuality">Image Protocol Quality</label>
-            <label>
-              Well-documented image protocols (for example, contrast, slice
-              thickness, energy, etc.) and/or usage of public image protocols
-              allow reproducibility/replicability
-            </label>
-
-            <textarea
-              name="imageProtocolQuality"
-              onChange={handleChange}
-              value={formState.imageProtocolQuality}
-            />
+            <label>Image Protocol Quality</label>
+            {protocols.map((protocol) => (
+              <div key={protocol}>
+                <input
+                  type="checkbox"
+                  name="imageProtocolQuality"
+                  value={protocol}
+                  onChange={handleChange}
+                  checked={formState.imageProtocolQuality.includes(protocol)}
+                />
+                <label>{protocol}</label>
+              </div>
+            ))}
           </div>
           <div className="form-group">
             <label htmlFor="status">Status</label>
@@ -85,7 +108,13 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="error">Error</option>
             </select>
           </div>
-          {errors && <div className="error">{`Please include: ${errors}`}</div>}
+          {errors && (
+            <div className="error">
+              {errors === "imageProtocolQuality"
+                ? "Please select at least one protocol"
+                : `Please include: ${errors}`}
+            </div>
+          )}
           <button type="submit" className="btn" onClick={handleSubmit}>
             Submit
           </button>
