@@ -12,14 +12,19 @@ export const Table = ({ rows, deleteRow, editRow }) => {
           <tr>
             <th>Paper Name</th>
             <th className="expand"> Image Protocol Quality</th>
-            <th>Status</th>
+            <th>Total Score (/36)</th> {/* Updated column header */}
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row, idx) => {
-            const statusText =
-              row.status.charAt(0).toUpperCase() + row.status.slice(1);
+            // const statusText =
+            //   row.status.charAt(0).toUpperCase() + row.status.slice(1);
+
+            // Calculate totalScore as a percentage out of 36
+            const totalScorePercentage = ((row.totalScore / 36) * 100).toFixed(
+              2
+            );
 
             return (
               <tr key={idx}>
@@ -28,9 +33,8 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                   {row.imageProtocolQuality.join(", ")}
                 </td>
                 <td>
-                  <span className={`label label-${row.status}`}>
-                    {statusText}
-                  </span>
+                  {`${row.totalScore} (${totalScorePercentage}%)`}{" "}
+                  {/* Display totalScore and percentage */}
                 </td>
                 <td>
                   <span className="actions">

@@ -7,11 +7,7 @@ import "./App.css";
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [rows, setRows] = useState([
-    // { page: "Page 1", description: "this is 1st page", status: "live" },
-    // { page: "Page 2", description: "this is 2nd page", status: "draft" },
-    // { page: "Page 3", description: "this is 3rd page", status: "error" },
-  ]);
+  const [rows, setRows] = useState([]);
   const [rowToEdit, setRowToEdit] = useState(null);
 
   const handleDeleteRow = (targetIndex) => {
@@ -25,6 +21,19 @@ function App() {
   };
 
   const handleSubmit = (newRow) => {
+    let totalScore = 0;
+
+    newRow.imageProtocolQuality.forEach((protocol) => {
+      if (protocol === "protocols well documented (+1)") {
+        totalScore += 1;
+      } else if (protocol === "public protocol used  (+1)") {
+        totalScore += 1;
+      }
+      // Add more conditions as needed for other protocols
+    });
+
+    newRow.totalScore = totalScore;
+
     rowToEdit === null
       ? setRows([...rows, newRow])
       : setRows(
