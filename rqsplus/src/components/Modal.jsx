@@ -5,15 +5,21 @@ import "./Modal.css";
 export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
-      page: "",
-      description: "",
+      name: "",
+      imageProtocolQuality: [],
       status: "live",
     }
   );
   const [errors, setErrors] = useState("");
 
+  const protocols = [
+    "protocols well documented",
+    "public protocol used",
+    "none",
+  ];
+
   const validateForm = () => {
-    if (formState.page && formState.description && formState.status) {
+    if (formState.name && formState.imageProtocolQuality && formState.status) {
       setErrors("");
       return true;
     } else {
@@ -51,15 +57,21 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="page">Page</label>
-            <input name="page" onChange={handleChange} value={formState.page} />
+            <label htmlFor="name">Paper Name</label>
+            <input name="name" onChange={handleChange} value={formState.name} />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="imageProtocolQuality">Image Protocol Quality</label>
+            <label>
+              Well-documented image protocols (for example, contrast, slice
+              thickness, energy, etc.) and/or usage of public image protocols
+              allow reproducibility/replicability
+            </label>
+
             <textarea
-              name="description"
+              name="imageProtocolQuality"
               onChange={handleChange}
-              value={formState.description}
+              value={formState.imageProtocolQuality}
             />
           </div>
           <div className="form-group">
