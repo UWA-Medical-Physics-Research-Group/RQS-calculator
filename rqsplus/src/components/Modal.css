@@ -16,9 +16,19 @@
   padding: 2rem;
   background-color: white;
   width: 25em;
+  max-height: 80%; /* Set maximum height */
+  overflow-y: auto; /* Add scrollbar if content exceeds the height */
+  position: relative;
+  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5),
+    /* Static shadow at the top */ inset 0 10px 10px -10px rgba(0, 0, 0, 0.5); /* Static shadow at the bottom */
 }
 
 .modal .btn {
   display: block;
   margin: auto;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }

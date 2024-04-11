@@ -142,7 +142,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         if (e.target.className === "modal-container") closeModal();
       }}>
       <div className="modal">
-        <form>
+        <form className="modal-form">
           <div className="form-group">
             <label htmlFor="name">Paper Name</label>
             <input name="name" onChange={handleChange} value={formState.name} />
@@ -243,7 +243,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="cutOff">Cut-off analyses??</label>
+            <label htmlFor="cutOff">Cut-off analyses?</label>
             <select
               name="cutOff"
               onChange={handleChange}
