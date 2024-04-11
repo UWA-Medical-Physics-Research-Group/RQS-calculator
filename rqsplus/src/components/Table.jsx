@@ -18,6 +18,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Feature reduction or adjustment for multiple testing?</th>
             <th>Multivariable analysis with non radiomics features?</th>
             <th>Detect and discuss biological correlates?</th>
+            <th>Cut-off analyses?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -47,6 +48,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.featureReduction}</td>
                 <td>{row.multivariable}</td>
                 <td>{row.biological}</td>
+                <td>{row.cutOff}</td>
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">

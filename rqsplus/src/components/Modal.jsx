@@ -13,6 +13,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       featureReduction: "",
       multivariable: "",
       biological: "",
+      cutOff: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -38,7 +39,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         formState.featureReduction
       ) &&
       ["Yes (+1)", "No (0)"].includes(formState.multivariable) &&
-      ["Yes (+1)", "No (0)"].includes(formState.biological)
+      ["Yes (+1)", "No (0)"].includes(formState.biological) &&
+      ["Yes (+1)", "No (0)"].includes(formState.cutOff)
     ) {
       setErrors("");
       return true;
@@ -72,8 +74,13 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       if (!formState.multivariable) {
         errorFields.push("multivariable");
       }
+
       if (!formState.biological) {
         errorFields.push("biological");
+      }
+
+      if (!formState.cutOff) {
+        errorFields.push("cutOff");
       }
 
       setErrors(errorFields.join(", "));
@@ -235,6 +242,18 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="No (0)">No (0)</option>
             </select>
           </div>
+          <div className="form-group">
+            <label htmlFor="cutOff">Cut-off analyses??</label>
+            <select
+              name="cutOff"
+              onChange={handleChange}
+              value={formState.cutOff}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
+          </div>
+
           {errors && (
             <div className="error">
               {errors === "imageProtocolQuality"
