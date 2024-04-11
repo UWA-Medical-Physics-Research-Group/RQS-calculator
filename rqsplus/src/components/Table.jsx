@@ -17,16 +17,18 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Imaging at multiple time points?</th>
             <th>Feature reduction or adjustment for multiple testing?</th>
             <th>Multivariable analysis with non radiomics features?</th>
+            <th>Detect and discuss biological correlates?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row, idx) => {
+            let totalScorePercentage = ((row.totalScore / 36) * 100).toFixed(2);
             // Calculate totalScore as a percentage out of 36
-            const totalScorePercentage = ((row.totalScore / 36) * 100).toFixed(
-              2
-            );
+            if (totalScorePercentage < 0) {
+              totalScorePercentage = 0;
+            }
 
             return (
               <tr key={idx}>
@@ -44,6 +46,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.multipleTimePoints}</td>
                 <td>{row.featureReduction}</td>
                 <td>{row.multivariable}</td>
+                <td>{row.biological}</td>
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">

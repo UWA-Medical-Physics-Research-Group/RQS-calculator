@@ -12,6 +12,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       multipleTimePoints: "",
       featureReduction: "",
       multivariable: "",
+      biological: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -33,10 +34,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
       ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints) &&
-      ["Yes, either method (+1)", "No, neither method (0)"].includes(
+      ["Yes, either method (+3)", "No, neither method (-3)"].includes(
         formState.featureReduction
       ) &&
-      ["Yes (+1)", "No (0)"].includes(formState.multivariable)
+      ["Yes (+1)", "No (0)"].includes(formState.multivariable) &&
+      ["Yes (+1)", "No (0)"].includes(formState.biological)
     ) {
       setErrors("");
       return true;
@@ -69,6 +71,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.multivariable) {
         errorFields.push("multivariable");
+      }
+      if (!formState.biological) {
+        errorFields.push("biological");
       }
 
       setErrors(errorFields.join(", "));
@@ -196,11 +201,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               onChange={handleChange}
               value={formState.featureReduction}>
               <option value="">Select</option>
-              <option value="Yes, either method (+1)">
-                Yes, either method (+1)
+              <option value="Yes, either method (+3)">
+                Yes, either method (+3)
               </option>
-              <option value="No, neither method (0)">
-                No, neither method (0)
+              <option value="No, neither method (-3)">
+                No, neither method (-3)
               </option>
             </select>
           </div>
@@ -212,6 +217,19 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multivariable"
               onChange={handleChange}
               value={formState.multivariable}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="biological">
+              Detect and discuss biological correlates?
+            </label>
+            <select
+              name="biological"
+              onChange={handleChange}
+              value={formState.biological}>
               <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
