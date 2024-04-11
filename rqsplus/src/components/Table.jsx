@@ -11,7 +11,8 @@ export const Table = ({ rows, deleteRow, editRow }) => {
         <thead>
           <tr>
             <th>Paper Name</th>
-            <th className="expand"> Image Protocol Quality</th>
+            <th className="expand">Image Protocol Quality</th>
+            <th>Multiple Segmentations?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -34,6 +35,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                     </React.Fragment>
                   ))}
                 </td>
+                <td>{row.multipleSegmentations}</td>
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">

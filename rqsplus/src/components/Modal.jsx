@@ -7,7 +7,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     defaultValue || {
       name: "",
       imageProtocolQuality: [],
-      status: "live",
+      multipleSegmentations: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -25,7 +25,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         formState.imageProtocolQuality.length === 1) ||
         (formState.imageProtocolQuality.length > 0 &&
           !formState.imageProtocolQuality.includes("none (0)"))) &&
-      formState.status
+      formState.multipleSegmentations &&
+      ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations)
     ) {
       setErrors("");
       return true;
@@ -37,11 +38,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }
 
       if (formState.imageProtocolQuality.length === 0) {
-        errorFields.push("imageProtocolQuality (lenght 0)");
+        errorFields.push("imageProtocolQuality");
       }
 
-      if (!formState.status) {
-        errorFields.push("status");
+      if (!formState.multipleSegmentations) {
+        errorFields.push("multipleSegmentations");
       }
 
       setErrors(errorFields.join(", "));
@@ -124,14 +125,16 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             ))}
           </div>
           <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="multipleSegmentations">
+              Multiple Segmentations?
+            </label>
             <select
-              name="status"
+              name="multipleSegmentations"
               onChange={handleChange}
-              value={formState.status}>
-              <option value="live">Live</option>
-              <option value="draft">Draft</option>
-              <option value="error">Error</option>
+              value={formState.multipleSegmentations}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
             </select>
           </div>
           {errors && (

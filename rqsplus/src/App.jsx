@@ -32,6 +32,10 @@ function App() {
       // Add more conditions as needed for other protocols
     });
 
+    if (newRow.multipleSegmentations === "Yes (+1)") {
+      totalScore += 1;
+    }
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null
