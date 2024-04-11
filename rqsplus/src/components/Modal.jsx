@@ -10,6 +10,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       multipleSegmentations: "",
       phantomStudy: "",
       multipleTimePoints: "",
+      featureReduction: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -30,7 +31,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       formState.multipleSegmentations &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
       ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
-      ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints)
+      ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints) &&
+      ["Yes, either method (+1)", "No, neither method (0)"].includes(
+        formState.featureReduction
+      )
     ) {
       setErrors("");
       return true;
@@ -55,6 +59,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.multipleTimePoints) {
         errorFields.push("multipleTimePoints");
+      }
+
+      if (!formState.featureReduction) {
+        errorFields.push("featureReduction");
       }
 
       setErrors(errorFields.join(", "));
@@ -171,6 +179,23 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="featureReduction">
+              Feature reduction or adjustment for multiple testing?
+            </label>
+            <select
+              name="featureReduction"
+              onChange={handleChange}
+              value={formState.featureReduction}>
+              <option value="">Select</option>
+              <option value="Yes, either method (+1)">
+                Yes, either method (+1)
+              </option>
+              <option value="No, neither method (0)">
+                No, neither method (0)
+              </option>
             </select>
           </div>
           {errors && (

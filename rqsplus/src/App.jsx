@@ -43,6 +43,10 @@ function App() {
       totalScore += 1;
     }
 
+    if (newRow.featureReduction === "Yes, either method (+1)") {
+      totalScore += 1;
+    }
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null

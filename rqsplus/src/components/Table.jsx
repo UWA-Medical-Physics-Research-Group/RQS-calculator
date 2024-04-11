@@ -15,6 +15,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Multiple Segmentations?</th>
             <th>Phantom Study on all Scanners?</th>
             <th>Imaging at Multiple Time Points?</th>
+            <th>Feature reduction or adjustment for multiple testing?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -40,6 +41,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.multipleSegmentations}</td>
                 <td>{row.phantomStudy}</td>
                 <td>{row.multipleTimePoints}</td>
+                <td>{row.featureReduction}</td>
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">
