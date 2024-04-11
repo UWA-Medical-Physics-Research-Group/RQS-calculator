@@ -29,7 +29,6 @@ function App() {
       } else if (protocol === "public protocol used  (+1)") {
         totalScore += 1;
       }
-      // Add more conditions as needed for other protocols
     });
 
     if (newRow.multipleSegmentations === "Yes (+1)") {
@@ -37,6 +36,10 @@ function App() {
     }
 
     if (newRow.phantomStudy === "Yes (+1)") {
+      totalScore += 1;
+    }
+
+    if (newRow.multipleTimePoints === "Yes (+1)") {
       totalScore += 1;
     }
 

@@ -9,6 +9,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       imageProtocolQuality: [],
       multipleSegmentations: "",
       phantomStudy: "",
+      multipleTimePoints: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -28,7 +29,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           !formState.imageProtocolQuality.includes("none (0)"))) &&
       formState.multipleSegmentations &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
-      ["Yes (+1)", "No (0)"].includes(formState.phantomStudy)
+      ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
+      ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints)
     ) {
       setErrors("");
       return true;
@@ -49,6 +51,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.phantomStudy) {
         errorFields.push("phantomStudy");
+      }
+
+      if (!formState.multipleTimePoints) {
+        errorFields.push("multipleTimePoints");
       }
 
       setErrors(errorFields.join(", "));
@@ -154,9 +160,22 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="No (0)">No (0)</option>
             </select>
           </div>
+          <div className="form-group">
+            <label htmlFor="multipleTimePoints">
+              Imaging at multiple time points?
+            </label>
+            <select
+              name="multipleTimePoints"
+              onChange={handleChange}
+              value={formState.multipleTimePoints}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
+          </div>
           {errors && (
             <div className="error">
-              {errors === "phantomStudy"
+              {errors === "imageProtocolQuality"
                 ? "Please select at least one imaging protocol"
                 : `Please include: ${errors}`}
             </div>
