@@ -8,9 +8,9 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [rows, setRows] = useState([
-    { page: "Page 1", description: "this is 1st page", status: "live" },
-    { page: "Page 2", description: "this is 2nd page", status: "draft" },
-    { page: "Page 3", description: "this is 3rd page", status: "error" },
+    // { page: "Page 1", description: "this is 1st page", status: "live" },
+    // { page: "Page 2", description: "this is 2nd page", status: "draft" },
+    // { page: "Page 3", description: "this is 3rd page", status: "error" },
   ]);
   const [rowToEdit, setRowToEdit] = useState(null);
 
