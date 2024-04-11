@@ -12,10 +12,11 @@ export const Table = ({ rows, deleteRow, editRow }) => {
           <tr>
             <th>Paper Name</th>
             <th className="expand">Image Protocol Quality</th>
-            <th>Multiple Segmentations?</th>
-            <th>Phantom Study on all Scanners?</th>
-            <th>Imaging at Multiple Time Points?</th>
+            <th>Multiple segmentations?</th>
+            <th>Phantom study on all scanners?</th>
+            <th>Imaging at multiple time points?</th>
             <th>Feature reduction or adjustment for multiple testing?</th>
+            <th>Multivariable analysis with non radiomics features?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -42,6 +43,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.phantomStudy}</td>
                 <td>{row.multipleTimePoints}</td>
                 <td>{row.featureReduction}</td>
+                <td>{row.multivariable}</td>
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">

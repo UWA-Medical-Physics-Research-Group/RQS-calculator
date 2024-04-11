@@ -11,6 +11,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       phantomStudy: "",
       multipleTimePoints: "",
       featureReduction: "",
+      multivariable: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -34,7 +35,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints) &&
       ["Yes, either method (+1)", "No, neither method (0)"].includes(
         formState.featureReduction
-      )
+      ) &&
+      ["Yes (+1)", "No (0)"].includes(formState.multivariable)
     ) {
       setErrors("");
       return true;
@@ -63,6 +65,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.featureReduction) {
         errorFields.push("featureReduction");
+      }
+
+      if (!formState.multivariable) {
+        errorFields.push("multivariable");
       }
 
       setErrors(errorFields.join(", "));
@@ -196,6 +202,19 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="No, neither method (0)">
                 No, neither method (0)
               </option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="multivariable">
+              Multivariable analysis with non radiomics features?
+            </label>
+            <select
+              name="multivariable"
+              onChange={handleChange}
+              value={formState.multivariable}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
             </select>
           </div>
           {errors && (
