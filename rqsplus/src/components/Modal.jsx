@@ -21,18 +21,29 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const validateForm = () => {
     if (
       formState.name &&
-      formState.imageProtocolQuality.length &&
+      ((formState.imageProtocolQuality.includes("none (0)") &&
+        formState.imageProtocolQuality.length === 1) ||
+        (formState.imageProtocolQuality.length > 0 &&
+          !formState.imageProtocolQuality.includes("none (0)"))) &&
       formState.status
     ) {
       setErrors("");
       return true;
     } else {
       let errorFields = [];
-      for (const [key, value] of Object.entries(formState)) {
-        if (!value) {
-          errorFields.push(key);
-        }
+
+      if (!formState.name) {
+        errorFields.push("name");
       }
+
+      if (formState.imageProtocolQuality.length === 0) {
+        errorFields.push("imageProtocolQuality (lenght 0)");
+      }
+
+      if (!formState.status) {
+        errorFields.push("status");
+      }
+
       setErrors(errorFields.join(", "));
       return false;
     }
@@ -126,7 +137,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           {errors && (
             <div className="error">
               {errors === "imageProtocolQuality"
-                ? "Please select at least one protocol"
+                ? "Please select at least one imaging protocol"
                 : `Please include: ${errors}`}
             </div>
           )}
