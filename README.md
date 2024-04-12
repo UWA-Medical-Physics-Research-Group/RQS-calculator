@@ -20,3 +20,4 @@
 - link to original article
 - link to nathaniels paper
 - metric (how many times this page has been used, where in the world)
+- get everything to start on "no" being selected
