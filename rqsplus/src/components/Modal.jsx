@@ -21,7 +21,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       gold: "No (0)",
       clinicalUtility: "No (0)",
       cost: "No (0)",
-      open: [],
+      open: ["none (0)"],
     }
   );
   const [errors, setErrors] = useState("");
