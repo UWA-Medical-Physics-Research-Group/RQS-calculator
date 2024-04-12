@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { saveAs } from "file-saver";
 import { Modal } from "./components/Modal";
 import { Table } from "./components/Table";
 import "./App.css";
@@ -144,6 +144,61 @@ function App() {
     setRows(restoredRows || []);
   };
 
+  const handleExportCSV = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+
+    // Add headers
+    const headers = Object.keys(rows[0]).join(",");
+    csvContent += headers + "\r\n";
+
+    rows.forEach((row) => {
+      let rowValues = [];
+
+      for (const key in row) {
+        if (Array.isArray(row[key])) {
+          rowValues.push(`"${row[key].join(", ")}"`);
+        } else {
+          rowValues.push(`"${row[key]}"`);
+        }
+      }
+
+      csvContent += rowValues.join(",") + "\r\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "table.csv");
+
+    // Create file input element to allow user to select save location
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("nwsaveas", "table.csv");
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const blob = new Blob([e.target.result], {
+            type: "text/csv;charset=utf-8",
+          });
+          saveAs(blob, file.name);
+
+          // Remove temporary link and input elements
+          document.body.removeChild(link);
+          document.body.removeChild(input);
+        };
+        reader.readAsText(file);
+      }
+    };
+
+    // Append link and input to body to trigger the file save dialog
+    document.body.appendChild(link);
+    document.body.appendChild(input);
+
+    input.click();
+  };
+
   useEffect(() => {
     localStorage.setItem("rows", JSON.stringify(rows));
   }, [rows]);
@@ -162,6 +217,9 @@ function App() {
           Undo Clear
         </button>
       )}
+      <button className="btn" onClick={handleExportCSV}>
+        Export as CSV
+      </button>
       {modalOpen && (
         <Modal
           closeModal={() => {
