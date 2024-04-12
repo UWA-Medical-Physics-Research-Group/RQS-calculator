@@ -175,12 +175,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      setErrors("Please fill out all required fields.");
-      return;
-    }
+    if (!validateForm()) return;
 
     onSubmit(formState);
+
     closeModal();
   };
 
