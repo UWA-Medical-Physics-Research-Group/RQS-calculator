@@ -235,11 +235,16 @@ function App() {
 
   return (
     <div className="App">
+      <header>
+        <div className="title">RQSplus</div>
+        <div className="description">
+          A tool designed to calculate the RQS scores for radiomics papers.
+        </div>
+      </header>
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
       <button className="btn" onClick={handleAddRow}>
         Add
       </button>
-
       {showClearButton && (
         <button className="btn" onClick={handleClearAll}>
           {isCleared ? "Undo Clear" : "Clear All"}
@@ -263,6 +268,45 @@ function App() {
           defaultValue={rowToEdit !== null && rows[rowToEdit]}
         />
       )}
+
+      {/* Footer Section */}
+      <footer className="footer">
+        <div className="footer-content">
+          <p>
+            Tool conceptualised by Nathaniel Barry and created by Kaylee Molin
+          </p>
+          <p>
+            If you have used this tool, please cite:
+            <br />
+            *Nathaniel's paper will be here*
+            <br />
+            <a href="https://www.nature.com/articles/nrclinonc.2017.141">
+              Radiomics: the bridge between medical imaging and personalized
+              medicine
+            </a>
+            <br />
+            Published: 04 October 2017
+            <br />
+            {/* Radiomics: the bridge between medical imaging and personalized
+            medicine */}
+          </p>
+        </div>
+        <div className="contact-info">
+          <p>
+            For inquiries or further information, please contact us at:
+            <br />
+            Nathaniel Barry{" "}
+            <a href="mailto:nathaniel.barry@research.uwa.edu.au">
+              nathaniel.barry@research.uwa.edu.au
+            </a>
+            <br />
+            Kaylee Molin{" "}
+            <a href="mailto:22734429@student.uwa.edu.au">
+              22734429@student.uwa.edu.au
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
