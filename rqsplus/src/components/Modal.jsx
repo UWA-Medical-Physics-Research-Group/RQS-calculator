@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import "./Modal.css";
 
 export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
@@ -25,32 +24,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     }
   );
   const [errors, setErrors] = useState("");
-
-  const protocols = [
-    "protocols well documented (+1)",
-    "public protocol used  (+1)",
-    "none (0)",
-  ];
-
-  const discriminations = [
-    "a discrimination statistic and its statistical significance are reported (+1)",
-    "a resampling method technique is also applied  (+1)",
-    "none (0)",
-  ];
-
-  const calibrations = [
-    "a calibration statistic and its statistical significance are reported (+1)",
-    "a resampling method technique is applied (+1)",
-    "none (0)",
-  ];
-
-  const openSources = [
-    "scans are open source (+1)",
-    "region of interest segmentations are open source (+1)",
-    "code is open source (+1)",
-    "radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source) (+1)",
-    "none (0)",
-  ];
 
   const validateForm = () => {
     if (
@@ -183,7 +156,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         }
       } else {
         if (checked) {
-          updatedArray = formState[name].filter((item) => item !== "none (0)"); // remove "none (0)" if present
+          updatedArray = formState[name].filter((item) => item !== "none (0)");
           updatedArray.push(value);
         } else {
           updatedArray = formState[name].filter((item) => item !== value);
@@ -202,12 +175,37 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setErrors("Please fill out all required fields.");
+      return;
+    }
 
     onSubmit(formState);
-
     closeModal();
   };
+
+  const protocols = [
+    "protocols well documented (+1)",
+    "public protocol used  (+1)",
+    "none (0)",
+  ];
+  const discriminations = [
+    "a discrimination statistic and its statistical significance are reported (+1)",
+    "a resampling method technique is also applied  (+1)",
+    "none (0)",
+  ];
+  const calibrations = [
+    "a calibration statistic and its statistical significance are reported (+1)",
+    "a resampling method technique is applied (+1)",
+    "none (0)",
+  ];
+  const openSources = [
+    "scans are open source (+1)",
+    "region of interest segmentations are open source (+1)",
+    "code is open source (+1)",
+    "radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source (+1)",
+    "none (0)",
+  ];
 
   return (
     <div
@@ -216,7 +214,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         if (e.target.className === "modal-container") closeModal();
       }}>
       <div className="modal">
-        <form className="modal-form">
+        <form className="modal-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Paper Name</label>
             <input name="name" onChange={handleChange} value={formState.name} />
@@ -225,14 +223,16 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             <label>Image Protocol Quality</label>
             {protocols.map((protocol) => (
               <div key={protocol}>
-                <input
-                  type="checkbox"
-                  name="imageProtocolQuality"
-                  value={protocol}
-                  onChange={handleChange}
-                  checked={formState.imageProtocolQuality.includes(protocol)}
-                />
-                <label>{protocol}</label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="imageProtocolQuality"
+                    value={protocol}
+                    onChange={handleChange}
+                    checked={formState.imageProtocolQuality.includes(protocol)}
+                  />
+                  {protocol}
+                </label>
               </div>
             ))}
           </div>
@@ -244,7 +244,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multipleSegmentations"
               onChange={handleChange}
               value={formState.multipleSegmentations}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -255,7 +254,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="phantomStudy"
               onChange={handleChange}
               value={formState.phantomStudy}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -268,7 +266,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multipleTimePoints"
               onChange={handleChange}
               value={formState.multipleTimePoints}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -281,7 +278,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="featureReduction"
               onChange={handleChange}
               value={formState.featureReduction}>
-              <option value="">Select</option>
               <option value="Yes, either method (+3)">
                 Yes, either method (+3)
               </option>
@@ -298,7 +294,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multivariable"
               onChange={handleChange}
               value={formState.multivariable}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -311,7 +306,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="biological"
               onChange={handleChange}
               value={formState.biological}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -322,7 +316,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="cutOff"
               onChange={handleChange}
               value={formState.cutOff}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -331,14 +324,16 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             <label>Discrimination statistics</label>
             {discriminations.map((disc) => (
               <div key={disc}>
-                <input
-                  type="checkbox"
-                  name="discrimination"
-                  value={disc}
-                  onChange={handleChange}
-                  checked={formState.discrimination.includes(disc)}
-                />
-                <label>{disc}</label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="discrimination"
+                    value={disc}
+                    onChange={handleChange}
+                    checked={formState.discrimination.includes(disc)}
+                  />
+                  {disc}
+                </label>
               </div>
             ))}
           </div>
@@ -346,14 +341,16 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             <label>Calibration statistics</label>
             {calibrations.map((cal) => (
               <div key={cal}>
-                <input
-                  type="checkbox"
-                  name="calibration"
-                  value={cal}
-                  onChange={handleChange}
-                  checked={formState.calibration.includes(cal)}
-                />
-                <label>{cal}</label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="calibration"
+                    value={cal}
+                    onChange={handleChange}
+                    checked={formState.calibration.includes(cal)}
+                  />
+                  {cal}
+                </label>
               </div>
             ))}
           </div>
@@ -365,7 +362,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="prospective"
               onChange={handleChange}
               value={formState.prospective}>
-              <option value="">Select</option>
               <option value="Yes (+7)">Yes (+7)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -376,7 +372,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="validation"
               onChange={handleChange}
               value={formState.validation}>
-              <option value="">Select</option>
               <option value="No validation (-5)">No validation (-5)</option>
               <option value="Validation is based on a dataset from the same institute (+2)">
                 Validation is based on a dataset from the same institute (+2)
@@ -400,7 +395,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           <div className="form-group">
             <label htmlFor="gold">Comparison to 'gold standard'?</label>
             <select name="gold" onChange={handleChange} value={formState.gold}>
-              <option value="">Select</option>
               <option value="Yes (+2)">Yes (+2)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -413,7 +407,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="clinicalUtility"
               onChange={handleChange}
               value={formState.clinicalUtility}>
-              <option value="">Select</option>
               <option value="Yes (+2)">Yes (+2)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -421,7 +414,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           <div className="form-group">
             <label htmlFor="cost">Reports cost-effectiveness?</label>
             <select name="cost" onChange={handleChange} value={formState.cost}>
-              <option value="">Select</option>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
@@ -430,26 +422,22 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             <label>Open science and data?</label>
             {openSources.map((openSource) => (
               <div key={openSource}>
-                <input
-                  type="checkbox"
-                  name="open"
-                  value={openSource}
-                  onChange={handleChange}
-                  checked={formState.open.includes(openSource)}
-                />
-                <label>{openSource}</label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="open"
+                    value={openSource}
+                    onChange={handleChange}
+                    checked={formState.open.includes(openSource)}
+                  />
+                  {openSource}
+                </label>
               </div>
             ))}
           </div>
 
-          {errors && (
-            <div className="error">
-              {errors === "imageProtocolQuality"
-                ? "Please select at least one imaging protocol"
-                : `Please include: ${errors}`}
-            </div>
-          )}
-          <button type="submit" className="btn" onClick={handleSubmit}>
+          {errors && <div className="error">{errors}</div>}
+          <button type="submit" className="btn">
             Submit
           </button>
         </form>
@@ -457,3 +445,5 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     </div>
   );
 };
+
+export default Modal;
