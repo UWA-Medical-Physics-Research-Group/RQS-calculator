@@ -11,8 +11,11 @@ function App() {
     return savedRows ? JSON.parse(savedRows) : [];
   });
   const [rowToEdit, setRowToEdit] = useState(null);
+  const [deletedRows, setDeletedRows] = useState([]);
 
   const handleDeleteRow = (targetIndex) => {
+    const deletedRow = rows[targetIndex];
+    setDeletedRows([...deletedRows, deletedRow]);
     setRows(rows.filter((_, idx) => idx !== targetIndex));
   };
 
@@ -128,6 +131,19 @@ function App() {
     localStorage.setItem("rows", JSON.stringify(updatedRows));
   };
 
+  const handleClearAll = () => {
+    localStorage.setItem("deletedRows", JSON.stringify(rows));
+    setDeletedRows([...deletedRows, ...rows]);
+    setRows([]);
+  };
+
+  const handleUndoClear = () => {
+    const restoredRows = JSON.parse(localStorage.getItem("deletedRows"));
+    localStorage.removeItem("deletedRows");
+    setDeletedRows([]);
+    setRows(restoredRows || []);
+  };
+
   useEffect(() => {
     localStorage.setItem("rows", JSON.stringify(rows));
   }, [rows]);
@@ -138,6 +154,14 @@ function App() {
       <button className="btn" onClick={() => setModalOpen(true)}>
         Add
       </button>
+      <button className="btn" onClick={handleClearAll}>
+        Clear All
+      </button>
+      {deletedRows.length > 0 && (
+        <button className="btn" onClick={handleUndoClear}>
+          Undo Clear
+        </button>
+      )}
       {modalOpen && (
         <Modal
           closeModal={() => {
