@@ -90,6 +90,32 @@ function App() {
       totalScore += 7;
     }
 
+    if (newRow.validation === "No validation (-5)") {
+      totalScore -= 5;
+    } else if (
+      newRow.validation ===
+      "Validation is based on a dataset from the same institute (+2)"
+    ) {
+      totalScore += 2;
+    } else if (
+      newRow.validation ===
+      "Validation is based on a dataset from another institute (+3)"
+    ) {
+      totalScore += 3;
+    } else if (
+      newRow.validation ===
+        "Validation is based on two datasets from two distinct institutes (+4)" ||
+      newRow.validation ===
+        "The study validates a previously published signature (+4)"
+    ) {
+      totalScore += 4;
+    } else if (
+      newRow.validation ===
+      "Validation is based on three or more datasets from distinct institutes (+5)"
+    ) {
+      totalScore += 5;
+    }
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null

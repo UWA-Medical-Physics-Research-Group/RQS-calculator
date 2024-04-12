@@ -17,6 +17,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       discrimination: [],
       calibration: [],
       prospective: "",
+      validation: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -64,7 +65,15 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         formState.calibration.length === 1) ||
         (formState.calibration.length > 0 &&
           !formState.calibration.includes("none (0)"))) &&
-      ["Yes (+7)", "No (0)"].includes(formState.prospective)
+      ["Yes (+7)", "No (0)"].includes(formState.prospective) &&
+      [
+        "No validation (-5)",
+        "Validation is based on a dataset from the same institute (+2)",
+        "Validation is based on a dataset from another institute (+3)",
+        "Validation is based on two datasets from two distinct institutes (+4)",
+        "The study validates a previously published signature (+4)",
+        "Validation is based on three or more datasets from distinct institutes (+5)",
+      ].includes(formState.validation)
     ) {
       setErrors("");
       return true;
@@ -117,6 +126,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.prospective) {
         errorFields.push("prospective");
+      }
+
+      if (!formState.validation) {
+        errorFields.push("validation");
       }
 
       setErrors(errorFields.join(", "));
@@ -326,6 +339,33 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="">Select</option>
               <option value="Yes (+7)">Yes (+7)</option>
               <option value="No (0)">No (0)</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="validation">Validation?</label>
+            <select
+              name="validation"
+              onChange={handleChange}
+              value={formState.validation}>
+              <option value="">Select</option>
+              <option value="No validation (-5)">No validation (-5)</option>
+              <option value="Validation is based on a dataset from the same institute (+2)">
+                Validation is based on a dataset from the same institute (+2)
+              </option>
+              <option value="Validation is based on a dataset from another institute (+3)">
+                Validation is based on a dataset from another institute (+3)
+              </option>
+              <option value="Validation is based on two datasets from two distinct institutes (+4)">
+                Validation is based on two datasets from two distinct institutes
+                (+4)
+              </option>
+              <option value="The study validates a previously published signature (+4)">
+                The study validates a previously published signature (+4)
+              </option>
+              <option value="Validation is based on three or more datasets from distinct institutes (+5)">
+                Validation is based on three or more datasets from distinct
+                institutes (+5)
+              </option>
             </select>
           </div>
 

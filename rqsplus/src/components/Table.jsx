@@ -22,6 +22,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Discrimination statistics reported?</th>
             <th>Calibration statistics reported?</th>
             <th>Prospective study registered in a trial database?</th>
+            <th>Validation?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -69,6 +70,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                   ))}
                 </td>
                 <td>{row.prospective}</td>
+                <td>{row.validation}</td>
 
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
