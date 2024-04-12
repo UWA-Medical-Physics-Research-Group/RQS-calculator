@@ -179,27 +179,36 @@ function App() {
       })
       .replace(/[,/: ]/g, "-")}.csv`;
 
-    // Prompt user to choose save location
-    const fileHandle = await window.showSaveFilePicker({
-      types: [
-        {
-          description: "CSV files",
-          accept: {
-            "text/csv": [".csv"],
+    try {
+      // Prompt user to choose save location
+      const fileHandle = await window.showSaveFilePicker({
+        types: [
+          {
+            description: "CSV files",
+            accept: {
+              "text/csv": [".csv"],
+            },
           },
-        },
-      ],
-      suggestedName: defaultFileName,
-    });
+        ],
+        suggestedName: defaultFileName,
+      });
 
-    // Create a writable stream to the chosen file
-    const writableStream = await fileHandle.createWritable();
+      // Create a writable stream to the chosen file
+      const writableStream = await fileHandle.createWritable();
 
-    // Write the blob to the file
-    await writableStream.write(blob);
+      // Write the blob to the file
+      await writableStream.write(blob);
 
-    // Close the file and display success message
-    await writableStream.close();
+      // Close the file and display success message
+      await writableStream.close();
+    } catch (error) {
+      // Handle the error when user cancels the file selection
+      if (error.name === "AbortError") {
+        console.log("User aborted the file selection.");
+      } else {
+        console.error("Error exporting CSV:", error);
+      }
+    }
   };
 
   useEffect(() => {
