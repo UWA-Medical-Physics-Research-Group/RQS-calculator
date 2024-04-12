@@ -86,8 +86,8 @@ function App() {
       }
     });
 
-    if (newRow.prospective === "Yes (+1)") {
-      totalScore += 1;
+    if (newRow.prospective === "Yes (+7)") {
+      totalScore += 7;
     }
 
     newRow.totalScore = totalScore;

@@ -64,7 +64,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         formState.calibration.length === 1) ||
         (formState.calibration.length > 0 &&
           !formState.calibration.includes("none (0)"))) &&
-      ["Yes (+1)", "No (0)"].includes(formState.prospective)
+      ["Yes (+7)", "No (0)"].includes(formState.prospective)
     ) {
       setErrors("");
       return true;
@@ -324,7 +324,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               onChange={handleChange}
               value={formState.prospective}>
               <option value="">Select</option>
-              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="Yes (+7)">Yes (+7)</option>
               <option value="No (0)">No (0)</option>
             </select>
           </div>
