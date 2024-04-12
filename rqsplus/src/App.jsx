@@ -144,7 +144,7 @@ function App() {
     setRows(restoredRows || []);
   };
 
-  const handleExportCSV = () => {
+  const handleExportCSV = async () => {
     let csvContent = "data:text/csv;charset=utf-8,";
 
     // Add headers
@@ -165,32 +165,28 @@ function App() {
       csvContent += rowValues.join(",") + "\r\n";
     });
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    const blob = new Blob([csvContent], { type: "text/csv" });
 
-    // Generate default file name
-    const dateTime = new Date().toISOString().replace(/[:\-ZT]/g, "");
-    const defaultFileName = `RQSplus_${dateTime}.csv`;
+    // Prompt user to choose save location
+    const fileHandle = await window.showSaveFilePicker({
+      types: [
+        {
+          description: "CSV files",
+          accept: {
+            "text/csv": [".csv"],
+          },
+        },
+      ],
+    });
 
-    // Prompt user for filename
-    const userFileName = window.prompt(
-      "Please enter the filename:",
-      defaultFileName
-    );
-    if (!userFileName) return; // Exit if user cancels
+    // Create a writable stream to the chosen file
+    const writableStream = await fileHandle.createWritable();
 
-    // Set download attribute with user's filename
-    link.setAttribute("download", userFileName);
+    // Write the blob to the file
+    await writableStream.write(blob);
 
-    // Append link to body to trigger the file save dialog
-    document.body.appendChild(link);
-
-    // Trigger download
-    link.click();
-
-    // Remove temporary link element
-    document.body.removeChild(link);
+    // Close the file and display success message
+    await writableStream.close();
   };
 
   useEffect(() => {
