@@ -78,7 +78,15 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.gold}</td>
                 <td>{row.clinicalUtility}</td>
                 <td>{row.cost}</td>
-                <td>{row.open}</td>
+                {/* <td>{row.open}</td> */}
+                <td className="expand">
+                  {row.open.map((openSource, index) => (
+                    <React.Fragment key={index}>
+                      {openSource}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                </td>
 
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
