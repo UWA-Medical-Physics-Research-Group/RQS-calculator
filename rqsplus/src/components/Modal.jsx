@@ -15,6 +15,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       biological: "",
       cutOff: "",
       discrimination: [],
+      calibration: [],
     }
   );
   const [errors, setErrors] = useState("");
@@ -28,6 +29,12 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const discriminations = [
     "a discrimination statistic and its statistical significance are reported (+1)",
     "a resampling method technique is also applied  (+1)",
+    "none (0)",
+  ];
+
+  const calibrations = [
+    "a calibration statistic and its statistical significance are reported (+1)",
+    "a resampling method technique is applied (+1)",
     "none (0)",
   ];
 
@@ -51,7 +58,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ((formState.discrimination.includes("none (0)") &&
         formState.discrimination.length === 1) ||
         (formState.discrimination.length > 0 &&
-          !formState.discrimination.includes("none (0)")))
+          !formState.discrimination.includes("none (0)"))) &&
+      ((formState.calibration.includes("none (0)") &&
+        formState.calibration.length === 1) ||
+        (formState.calibration.length > 0 &&
+          !formState.calibration.includes("none (0)")))
     ) {
       setErrors("");
       return true;
@@ -98,6 +109,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         errorFields.push("discrimination");
       }
 
+      if (formState.calibration.length === 0) {
+        errorFields.push("calibration");
+      }
+
       setErrors(errorFields.join(", "));
       return false;
     }
@@ -106,7 +121,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
 
-    if (name === "imageProtocolQuality" || name === "discrimination") {
+    if (
+      name === "imageProtocolQuality" ||
+      name === "discrimination" ||
+      name === "calibration"
+    ) {
       let updatedArray;
       if (value === "none (0)") {
         if (checked) {
@@ -272,6 +291,21 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                   checked={formState.discrimination.includes(disc)}
                 />
                 <label>{disc}</label>
+              </div>
+            ))}
+          </div>
+          <div className="form-group">
+            <label>Calibration statistics</label>
+            {calibrations.map((cal) => (
+              <div key={cal}>
+                <input
+                  type="checkbox"
+                  name="calibration"
+                  value={cal}
+                  onChange={handleChange}
+                  checked={formState.calibration.includes(cal)}
+                />
+                <label>{cal}</label>
               </div>
             ))}
           </div>

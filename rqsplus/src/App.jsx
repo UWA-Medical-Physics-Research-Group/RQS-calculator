@@ -73,6 +73,19 @@ function App() {
       }
     });
 
+    newRow.calibration.forEach((calibration) => {
+      if (
+        calibration ===
+        "a calibration statistic and its statistical significance are reported (+1)"
+      ) {
+        totalScore += 1;
+      } else if (
+        calibration === "a resampling method technique is applied (+1)"
+      ) {
+        totalScore += 1;
+      }
+    });
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null
