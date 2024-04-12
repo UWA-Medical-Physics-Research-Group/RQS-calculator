@@ -15,7 +15,7 @@
 - [ ] some of the columns are aligned weridly. Need to fix that
 - [ ] can update wording
 - [X] export as csv functionality
-- [ ] concepted by... created by...
+- [X] concepted by... created by...
 - [ ] add logos for med phys
 - [ ] link to original article
 - [ ] link to nathaniels paper
