@@ -50,7 +50,15 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.multivariable}</td>
                 <td>{row.biological}</td>
                 <td>{row.cutOff}</td>
-                <td>{row.discrimination}</td>
+                <td className="expand">
+                  {row.discrimination.map((disc, index) => (
+                    <React.Fragment key={index}>
+                      {disc}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                </td>
+
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
                   <span className="actions">
