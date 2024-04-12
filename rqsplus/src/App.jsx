@@ -3,9 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "./components/Modal";
 import { Table } from "./components/Table";
 import "./App.css";
-// import rqsImage from "./assets/RQS.png";
-import rqsImage from "./RQS.png";
-
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [rows, setRows] = useState(() => {
@@ -272,13 +269,12 @@ function App() {
           defaultValue={rowToEdit !== null && rows[rowToEdit]}
         />
       )}
-      <img src={rqsImage} alt="RQS" />
 
       {/* Footer Section */}
       <footer className="footer">
         <div className="footer-content">
           <p>
-            Tool conceptualised by Nathaniel Barry and created by Kaylee Molin
+            Tool conceptualised by Nathaniel Barry and created by Kaylee Molin.
           </p>
           <p>
             If you have used this tool, please cite:

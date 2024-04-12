@@ -13,9 +13,9 @@
 
 .modal {
   border-radius: 5px;
-  padding: 2rem;
+  padding: 3rem; /* Increased padding on all sides */
   background-color: white;
-  width: 25em;
+  width: 40em;
   max-height: 80%; /* Set maximum height */
   overflow-y: auto; /* Add scrollbar if content exceeds the height */
   position: relative;
@@ -31,4 +31,22 @@
 .error {
   color: red;
   margin-top: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px; /* Adds space to the right of the checkbox */
+  margin-bottom: 5px; /* Adds vertical space between checkboxes */
+  vertical-align: middle; /* Aligns the checkbox vertically with the text */
+}
+
+.form-group {
+  display: grid; /* Use grid layout */
+  grid-template-columns: min-content auto; /* First column for checkbox, second for label */
+  align-items: left; /* Center items vertically */
+  gap: 10px; /* Gap between checkbox and label */
+}
+
+.form-group > label {
+  font-weight: bold; /* Makes the label text bold */
+  white-space: nowrap; /* Prevents text from wrapping to the next line */
 }
