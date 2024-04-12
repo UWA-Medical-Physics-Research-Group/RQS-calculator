@@ -168,35 +168,29 @@ function App() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "table.csv");
 
-    // Create file input element to allow user to select save location
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("nwsaveas", "table.csv");
-    input.onchange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const blob = new Blob([e.target.result], {
-            type: "text/csv;charset=utf-8",
-          });
-          saveAs(blob, file.name);
+    // Generate default file name
+    const dateTime = new Date().toISOString().replace(/[:\-ZT]/g, "");
+    const defaultFileName = `RQSplus_${dateTime}.csv`;
 
-          // Remove temporary link and input elements
-          document.body.removeChild(link);
-          document.body.removeChild(input);
-        };
-        reader.readAsText(file);
-      }
-    };
+    // Prompt user for filename
+    const userFileName = window.prompt(
+      "Please enter the filename:",
+      defaultFileName
+    );
+    if (!userFileName) return; // Exit if user cancels
 
-    // Append link and input to body to trigger the file save dialog
+    // Set download attribute with user's filename
+    link.setAttribute("download", userFileName);
+
+    // Append link to body to trigger the file save dialog
     document.body.appendChild(link);
-    document.body.appendChild(input);
 
-    input.click();
+    // Trigger download
+    link.click();
+
+    // Remove temporary link element
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
