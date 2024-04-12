@@ -12,6 +12,8 @@ function App() {
   });
   const [rowToEdit, setRowToEdit] = useState(null);
   const [deletedRows, setDeletedRows] = useState([]);
+  const [isCleared, setIsCleared] = useState(false);
+  const [showClearButton, setShowClearButton] = useState(true);
 
   const handleDeleteRow = (targetIndex) => {
     const deletedRow = rows[targetIndex];
@@ -135,6 +137,8 @@ function App() {
     localStorage.setItem("deletedRows", JSON.stringify(rows));
     setDeletedRows([...deletedRows, ...rows]);
     setRows([]);
+    setShowClearButton(false); // Hide the "Clear All" button
+    setIsCleared(true); // Set isCleared to true when rows are cleared
   };
 
   const handleUndoClear = () => {
@@ -142,6 +146,14 @@ function App() {
     localStorage.removeItem("deletedRows");
     setDeletedRows([]);
     setRows(restoredRows || []);
+    setShowClearButton(true); // Show the "Clear All" button again
+    setIsCleared(false); // Set isCleared back to false when rows are restored
+  };
+
+  const handleAddRow = () => {
+    setIsCleared(false); // Reset isCleared when a new row is added
+    setShowClearButton(true); // Show the "Clear All" button when a new row is added
+    setModalOpen(true);
   };
 
   const handleExportCSV = async () => {
@@ -215,16 +227,25 @@ function App() {
     localStorage.setItem("rows", JSON.stringify(rows));
   }, [rows]);
 
+  // Effect to monitor changes in the rows state
+  useEffect(() => {
+    // If there are rows, show the "Clear All" button
+    setShowClearButton(rows.length > 0);
+  }, [rows]);
+
   return (
     <div className="App">
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <button className="btn" onClick={() => setModalOpen(true)}>
+      <button className="btn" onClick={handleAddRow}>
         Add
       </button>
-      <button className="btn" onClick={handleClearAll}>
-        Clear All
-      </button>
-      {deletedRows.length > 0 && (
+
+      {showClearButton && (
+        <button className="btn" onClick={handleClearAll}>
+          {isCleared ? "Undo Clear" : "Clear All"}
+        </button>
+      )}
+      {isCleared && deletedRows.length > 0 && (
         <button className="btn" onClick={handleUndoClear}>
           Undo Clear
         </button>
