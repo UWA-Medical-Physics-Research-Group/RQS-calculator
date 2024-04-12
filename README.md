@@ -17,3 +17,6 @@
 - export as csv functionality
 - concepted by... created by...
 - add logos for med phys
+- link to original article
+- link to nathaniels paper
+- metric (how many times this page has been used, where in the world)
