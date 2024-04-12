@@ -20,6 +20,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       validation: "No validation (-5)",
       gold: "No (0)",
       clinicalUtility: "No (0)",
+      cost: "No (0)",
     }
   );
   const [errors, setErrors] = useState("");
@@ -77,7 +78,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         "Validation is based on three or more datasets from distinct institutes (+5)",
       ].includes(formState.validation) &&
       ["Yes (+2)", "No (0)"].includes(formState.gold) &&
-      ["Yes (+2)", "No (0)"].includes(formState.clinicalUtility)
+      ["Yes (+2)", "No (0)"].includes(formState.clinicalUtility) &&
+      ["Yes (+1)", "No (0)"].includes(formState.cost)
     ) {
       setErrors("");
       return true;
@@ -142,6 +144,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.clinicalUtility) {
         errorFields.push("clinicalUtility");
+      }
+
+      if (!formState.cost) {
+        errorFields.push("cost");
       }
 
       setErrors(errorFields.join(", "));
@@ -388,7 +394,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="No (0)">No (0)</option>
             </select>
           </div>
-
           <div className="form-group">
             <label htmlFor="clinicalUtility">
               Reports potential clinical utility?
@@ -399,6 +404,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               value={formState.clinicalUtility}>
               <option value="">Select</option>
               <option value="Yes (+2)">Yes (+2)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="cost">Reports cost-effectiveness?</label>
+            <select name="cost" onChange={handleChange} value={formState.cost}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
           </div>

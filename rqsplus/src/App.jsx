@@ -121,6 +121,9 @@ function App() {
     if (newRow.clinicalUtility === "Yes (+2)") {
       totalScore += 2;
     }
+    if (newRow.cost === "Yes (+1)") {
+      totalScore += 1;
+    }
 
     newRow.totalScore = totalScore;
 
