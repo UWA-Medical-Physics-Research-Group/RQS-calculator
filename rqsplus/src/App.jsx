@@ -125,6 +125,10 @@ function App() {
       totalScore += 1;
     }
 
+    if (newRow.open.length > 0 && !newRow.open.includes("none (0)")) {
+      totalScore += newRow.open.length;
+    }
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null

@@ -21,6 +21,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       gold: "No (0)",
       clinicalUtility: "No (0)",
       cost: "No (0)",
+      open: [],
     }
   );
   const [errors, setErrors] = useState("");
@@ -40,6 +41,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const calibrations = [
     "a calibration statistic and its statistical significance are reported (+1)",
     "a resampling method technique is applied (+1)",
+    "none (0)",
+  ];
+
+  const openSources = [
+    "scans are open source (+1)",
+    "region of interest segmentations are open source (+1)",
+    "code is open source (+1)",
+    "radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source) (+1)",
     "none (0)",
   ];
 
@@ -79,7 +88,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ].includes(formState.validation) &&
       ["Yes (+2)", "No (0)"].includes(formState.gold) &&
       ["Yes (+2)", "No (0)"].includes(formState.clinicalUtility) &&
-      ["Yes (+1)", "No (0)"].includes(formState.cost)
+      ["Yes (+1)", "No (0)"].includes(formState.cost) &&
+      formState.open.length > 0
     ) {
       setErrors("");
       return true;
@@ -150,35 +160,36 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         errorFields.push("cost");
       }
 
+      if (formState.open.length === 0) {
+        errorFields.push("open");
+      }
+
       setErrors(errorFields.join(", "));
       return false;
     }
   };
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
+    const { name, value, checked, type } = e.target;
 
-    if (
-      name === "imageProtocolQuality" ||
-      name === "discrimination" ||
-      name === "calibration"
-    ) {
+    if (type === "checkbox") {
       let updatedArray;
+
       if (value === "none (0)") {
         if (checked) {
           updatedArray = [value];
         } else {
-          updatedArray = [];
+          updatedArray = formState[name].filter((item) => item !== "none (0)");
         }
       } else {
         if (checked) {
-          updatedArray = formState[name].includes("none (0)")
-            ? [value]
-            : [...formState[name], value];
+          updatedArray = formState[name].filter((item) => item !== "none (0)"); // remove "none (0)" if present
+          updatedArray.push(value);
         } else {
           updatedArray = formState[name].filter((item) => item !== value);
         }
       }
+
       setFormState({
         ...formState,
         [name]: updatedArray,
@@ -414,6 +425,21 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
+          </div>
+          <div className="form-group">
+            <label>Open science and data?</label>
+            {openSources.map((openSource) => (
+              <div key={openSource}>
+                <input
+                  type="checkbox"
+                  name="open"
+                  value={openSource}
+                  onChange={handleChange}
+                  checked={formState.open.includes(openSource)}
+                />
+                <label>{openSource}</label>
+              </div>
+            ))}
           </div>
 
           {errors && (

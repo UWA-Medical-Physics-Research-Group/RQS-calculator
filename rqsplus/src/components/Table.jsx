@@ -26,6 +26,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Comparison to 'gold standard'?</th>
             <th>Reports potential clinical utility?</th>
             <th>Reports cost-effectiveness?</th>
+            <th>Open science and data?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -77,6 +78,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.gold}</td>
                 <td>{row.clinicalUtility}</td>
                 <td>{row.cost}</td>
+                <td>{row.open}</td>
 
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>
