@@ -14,6 +14,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       multivariable: "",
       biological: "",
       cutOff: "",
+      discrimination: [],
     }
   );
   const [errors, setErrors] = useState("");
@@ -21,6 +22,12 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const protocols = [
     "protocols well documented (+1)",
     "public protocol used  (+1)",
+    "none (0)",
+  ];
+
+  const discriminations = [
+    "a discrimination statistic and its statistical significance are reported (+1)",
+    "a resampling method technique is also applied  (+1)",
     "none (0)",
   ];
 
@@ -40,7 +47,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ) &&
       ["Yes (+1)", "No (0)"].includes(formState.multivariable) &&
       ["Yes (+1)", "No (0)"].includes(formState.biological) &&
-      ["Yes (+1)", "No (0)"].includes(formState.cutOff)
+      ["Yes (+1)", "No (0)"].includes(formState.cutOff) &&
+      ((formState.discrimination.includes("none (0)") &&
+        formState.discrimination.length === 1) ||
+        (formState.discrimination.length > 0 &&
+          !formState.discrimination.includes("none (0)")))
     ) {
       setErrors("");
       return true;
@@ -83,6 +94,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         errorFields.push("cutOff");
       }
 
+      if (formState.discrimination.length === 0) {
+        errorFields.push("discrimination");
+      }
+
       setErrors(errorFields.join(", "));
       return false;
     }
@@ -91,35 +106,27 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
 
-    if (name === "imageProtocolQuality") {
+    if (name === "imageProtocolQuality" || name === "discrimination") {
+      let updatedArray;
       if (value === "none (0)") {
         if (checked) {
-          setFormState({
-            ...formState,
-            imageProtocolQuality: [value],
-          });
+          updatedArray = [value];
         } else {
-          setFormState({
-            ...formState,
-            imageProtocolQuality: [],
-          });
+          updatedArray = [];
         }
       } else {
-        let updatedProtocols;
         if (checked) {
-          updatedProtocols = formState.imageProtocolQuality.includes("none (0)")
+          updatedArray = formState[name].includes("none (0)")
             ? [value]
-            : [...formState.imageProtocolQuality, value];
+            : [...formState[name], value];
         } else {
-          updatedProtocols = formState.imageProtocolQuality.filter(
-            (protocol) => protocol !== value
-          );
+          updatedArray = formState[name].filter((item) => item !== value);
         }
-        setFormState({
-          ...formState,
-          imageProtocolQuality: updatedProtocols,
-        });
       }
+      setFormState({
+        ...formState,
+        [name]: updatedArray,
+      });
     } else {
       setFormState({ ...formState, [name]: value });
     }
@@ -252,6 +259,21 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
+          </div>
+          <div className="form-group">
+            <label>Discrimination statistics</label>
+            {discriminations.map((disc) => (
+              <div key={disc}>
+                <input
+                  type="checkbox"
+                  name="discrimination"
+                  value={disc}
+                  onChange={handleChange}
+                  checked={formState.discrimination.includes(disc)}
+                />
+                <label>{disc}</label>
+              </div>
+            ))}
           </div>
 
           {errors && (

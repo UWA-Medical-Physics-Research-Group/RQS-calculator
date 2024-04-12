@@ -16,7 +16,6 @@ function App() {
 
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
-
     setModalOpen(true);
   };
 
@@ -60,6 +59,19 @@ function App() {
     if (newRow.cutOff === "Yes (+1)") {
       totalScore += 1;
     }
+
+    newRow.discrimination.forEach((discrimination) => {
+      if (
+        discrimination ===
+        "a discrimination statistic and its statistical significance are reported (+1)"
+      ) {
+        totalScore += 1;
+      } else if (
+        discrimination === "a resampling method technique is also applied  (+1)"
+      ) {
+        totalScore += 1;
+      }
+    });
 
     newRow.totalScore = totalScore;
 
