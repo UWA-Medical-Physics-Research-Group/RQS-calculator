@@ -115,6 +115,12 @@ function App() {
     ) {
       totalScore += 5;
     }
+    if (newRow.gold === "Yes (+2)") {
+      totalScore += 2;
+    }
+    if (newRow.clinicalUtility === "Yes (+2)") {
+      totalScore += 2;
+    }
 
     newRow.totalScore = totalScore;
 

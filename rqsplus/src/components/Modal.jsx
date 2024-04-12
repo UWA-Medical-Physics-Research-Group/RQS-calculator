@@ -18,6 +18,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       calibration: ["none (0)"],
       prospective: "No (0)",
       validation: "No validation (-5)",
+      gold: "No (0)",
+      clinicalUtility: "No (0)",
     }
   );
   const [errors, setErrors] = useState("");
@@ -73,7 +75,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         "Validation is based on two datasets from two distinct institutes (+4)",
         "The study validates a previously published signature (+4)",
         "Validation is based on three or more datasets from distinct institutes (+5)",
-      ].includes(formState.validation)
+      ].includes(formState.validation) &&
+      ["Yes (+2)", "No (0)"].includes(formState.gold) &&
+      ["Yes (+2)", "No (0)"].includes(formState.clinicalUtility)
     ) {
       setErrors("");
       return true;
@@ -130,6 +134,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.validation) {
         errorFields.push("validation");
+      }
+
+      if (!formState.gold) {
+        errorFields.push("gold");
+      }
+
+      if (!formState.clinicalUtility) {
+        errorFields.push("clinicalUtility");
       }
 
       setErrors(errorFields.join(", "));
@@ -366,6 +378,28 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                 Validation is based on three or more datasets from distinct
                 institutes (+5)
               </option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="gold">Comparison to 'gold standard'?</label>
+            <select name="gold" onChange={handleChange} value={formState.gold}>
+              <option value="">Select</option>
+              <option value="Yes (+2)">Yes (+2)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="clinicalUtility">
+              Reports potential clinical utility?
+            </label>
+            <select
+              name="clinicalUtility"
+              onChange={handleChange}
+              value={formState.clinicalUtility}>
+              <option value="">Select</option>
+              <option value="Yes (+2)">Yes (+2)</option>
+              <option value="No (0)">No (0)</option>
             </select>
           </div>
 
