@@ -15,6 +15,9 @@
   margin: auto;
   table-layout: auto;
   overflow-x: auto;
+  /* Added max-height and overflow-y properties */
+  max-height: 50vh; /* 60% of the viewport height */
+  overflow-y: auto; /* Enable vertical scrollbar */
 }
 
 .table thead {
