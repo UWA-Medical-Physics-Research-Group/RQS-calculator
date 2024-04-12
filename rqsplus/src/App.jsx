@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "./components/Modal";
 import { Table } from "./components/Table";
 import "./App.css";
+// import rqsImage from "./assets/RQS.png";
+import rqsImage from "./RQS.png";
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -238,9 +240,11 @@ function App() {
       <header>
         <div className="title">RQSplus</div>
         <div className="description">
-          A tool designed to calculate the RQS scores for radiomics papers.
+          A tool designed to calculate the radiomics quality score scores for
+          radiomics papers.
         </div>
       </header>
+      {/* Table Section */}
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
       <button className="btn" onClick={handleAddRow}>
         Add
@@ -268,6 +272,7 @@ function App() {
           defaultValue={rowToEdit !== null && rows[rowToEdit]}
         />
       )}
+      <img src={rqsImage} alt="RQS" />
 
       {/* Footer Section */}
       <footer className="footer">
