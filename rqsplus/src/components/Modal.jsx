@@ -6,18 +6,18 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
       name: "",
-      imageProtocolQuality: [],
-      multipleSegmentations: "",
-      phantomStudy: "",
-      multipleTimePoints: "",
-      featureReduction: "",
-      multivariable: "",
-      biological: "",
-      cutOff: "",
-      discrimination: [],
-      calibration: [],
-      prospective: "",
-      validation: "",
+      imageProtocolQuality: ["none (0)"],
+      multipleSegmentations: "No (0)",
+      phantomStudy: "No (0)",
+      multipleTimePoints: "No (0)",
+      featureReduction: "No, neither method (-3)",
+      multivariable: "No (0)",
+      biological: "No (0)",
+      cutOff: "No (0)",
+      discrimination: ["none (0)"],
+      calibration: ["none (0)"],
+      prospective: "No (0)",
+      validation: "No validation (-5)",
     }
   );
   const [errors, setErrors] = useState("");
