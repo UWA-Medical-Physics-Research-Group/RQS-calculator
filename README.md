@@ -17,9 +17,10 @@
 - [X] export as csv functionality
 - [X] concepted by... created by...
 - [ ] add logos for med phys
-- [ ] link to original article
+- [X] link to original article
 - [ ] link to nathaniels paper
 - [ ] metrics (how many times this page has been used, where in the world)
 - [X] get everything to start on "no" being selected
 - [ ] maybe freeze first col? or last col?
 - [ ] change headers on csv to something more readable
+- [ ] issue with long paper names. Text doesnt wrap and instead makes the column width huge. Need to fix
