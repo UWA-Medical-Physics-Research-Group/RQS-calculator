@@ -27,3 +27,4 @@
 - [ ] maybe freeze first col? or last col?
 - [ ] change headers on csv to something more readable
 - [ ] issue with long paper names. Text doesnt wrap and instead makes the column width huge. Need to fix
+- [ ] there is a vertical space issue. When vertical space is small, header and top of table gets cut off
