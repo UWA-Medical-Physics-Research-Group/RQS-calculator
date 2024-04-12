@@ -21,6 +21,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Cut-off analyses?</th>
             <th>Discrimination statistics reported?</th>
             <th>Calibration statistics reported?</th>
+            <th>Prospective study registered in a trial database?</th>
             <th>Total Score</th>
             <th>Actions</th>
           </tr>
@@ -67,6 +68,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                     </React.Fragment>
                   ))}
                 </td>
+                <td>{row.prospective}</td>
 
                 <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
                 <td>

@@ -86,6 +86,10 @@ function App() {
       }
     });
 
+    if (newRow.prospective === "Yes (+1)") {
+      totalScore += 1;
+    }
+
     newRow.totalScore = totalScore;
 
     rowToEdit === null

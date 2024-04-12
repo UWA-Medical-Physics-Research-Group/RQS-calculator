@@ -16,6 +16,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       cutOff: "",
       discrimination: [],
       calibration: [],
+      prospective: "",
     }
   );
   const [errors, setErrors] = useState("");
@@ -62,7 +63,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ((formState.calibration.includes("none (0)") &&
         formState.calibration.length === 1) ||
         (formState.calibration.length > 0 &&
-          !formState.calibration.includes("none (0)")))
+          !formState.calibration.includes("none (0)"))) &&
+      ["Yes (+1)", "No (0)"].includes(formState.prospective)
     ) {
       setErrors("");
       return true;
@@ -111,6 +113,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (formState.calibration.length === 0) {
         errorFields.push("calibration");
+      }
+
+      if (!formState.prospective) {
+        errorFields.push("prospective");
       }
 
       setErrors(errorFields.join(", "));
@@ -308,6 +314,19 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                 <label>{cal}</label>
               </div>
             ))}
+          </div>
+          <div className="form-group">
+            <label htmlFor="prospective">
+              Prospective study registered in a trial database?
+            </label>
+            <select
+              name="prospective"
+              onChange={handleChange}
+              value={formState.prospective}>
+              <option value="">Select</option>
+              <option value="Yes (+1)">Yes (+1)</option>
+              <option value="No (0)">No (0)</option>
+            </select>
           </div>
 
           {errors && (
