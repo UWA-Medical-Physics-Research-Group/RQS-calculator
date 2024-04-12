@@ -23,3 +23,4 @@
 - [X] get everything to start on "no" being selected
 - [ ] maybe freeze first col? or last col?
 - [ ] change headers on csv to something more readable
+- [ ] issue with long paper names. Text doesnt wrap and instead makes the column width huge. Need to fix
