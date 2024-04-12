@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 import { Modal } from "./components/Modal";
 import { Table } from "./components/Table";
 import "./App.css";
@@ -145,7 +145,7 @@ function App() {
   };
 
   const handleExportCSV = async () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
+    let csvContent = "";
 
     // Add headers
     const headers = Object.keys(rows[0]).join(",");
@@ -167,6 +167,18 @@ function App() {
 
     const blob = new Blob([csvContent], { type: "text/csv" });
 
+    // Generate default file name with current local date and time
+    const now = new Date();
+    const defaultFileName = `RQSplus-${now
+      .toLocaleString("default", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace(/[,/: ]/g, "-")}.csv`;
+
     // Prompt user to choose save location
     const fileHandle = await window.showSaveFilePicker({
       types: [
@@ -177,6 +189,7 @@ function App() {
           },
         },
       ],
+      suggestedName: defaultFileName,
     });
 
     // Create a writable stream to the chosen file
