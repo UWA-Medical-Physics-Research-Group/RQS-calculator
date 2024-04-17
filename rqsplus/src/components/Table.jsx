@@ -10,8 +10,8 @@ export const Table = ({ rows, deleteRow, editRow }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Paper Name</th>
-            <th className="expand">Image Protocol Quality</th>
+            <th>Paper name</th>
+            <th className="expand">Image protocol quality</th>
             <th>Multiple segmentations</th>
             <th>Phantom study on all scanners</th>
             <th>Imaging at multiple time points</th>
@@ -27,7 +27,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Reports potential clinical utility</th>
             <th>Reports cost-effectiveness</th>
             <th>Open science and data</th>
-            <th>Total Score</th>
+            <th>Total score</th>
             <th>Actions</th>
           </tr>
         </thead>

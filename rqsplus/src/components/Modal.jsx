@@ -214,11 +214,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       <div className="modal">
         <form className="modal-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Paper Name</label>
+            <label htmlFor="name">Paper name</label>
             <input name="name" onChange={handleChange} value={formState.name} />
           </div>
           <div className="form-group">
-            <label>Image Protocol Quality</label>
+            <label>Image protocol quality</label>
             {protocols.map((protocol) => (
               <div key={protocol}>
                 <label>
@@ -236,7 +236,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="multipleSegmentations">
-              Multiple Segmentations?
+              Multiple segmentations
             </label>
             <select
               name="multipleSegmentations"
@@ -247,7 +247,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="phantomStudy">Phantom study on all Scanners?</label>
+            <label htmlFor="phantomStudy">Phantom study on all scanners</label>
             <select
               name="phantomStudy"
               onChange={handleChange}
@@ -258,7 +258,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="multipleTimePoints">
-              Imaging at multiple time points?
+              Imaging at multiple time points
             </label>
             <select
               name="multipleTimePoints"
@@ -270,7 +270,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="featureReduction">
-              Feature reduction or adjustment for multiple testing?
+              Feature reduction or adjustment for multiple testing
             </label>
             <select
               name="featureReduction"
@@ -286,7 +286,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="multivariable">
-              Multivariable analysis with non radiomics features?
+              Multivariable analysis with non radiomics features
             </label>
             <select
               name="multivariable"
@@ -298,7 +298,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="biological">
-              Detect and discuss biological correlates?
+              Detect and discuss biological correlates
             </label>
             <select
               name="biological"
@@ -309,7 +309,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="cutOff">Cut-off analyses?</label>
+            <label htmlFor="cutOff">Cut-off analyses</label>
             <select
               name="cutOff"
               onChange={handleChange}
@@ -354,7 +354,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="prospective">
-              Prospective study registered in a trial database?
+              Prospective study registered in a trial database
             </label>
             <select
               name="prospective"
@@ -365,7 +365,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="validation">Validation?</label>
+            <label htmlFor="validation">Validation</label>
             <select
               name="validation"
               onChange={handleChange}
@@ -391,7 +391,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="gold">Comparison to 'gold standard'?</label>
+            <label htmlFor="gold">Comparison to 'gold standard'</label>
             <select name="gold" onChange={handleChange} value={formState.gold}>
               <option value="Yes (+2)">Yes (+2)</option>
               <option value="No (0)">No (0)</option>
@@ -399,7 +399,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="clinicalUtility">
-              Reports potential clinical utility?
+              Reports potential clinical utility
             </label>
             <select
               name="clinicalUtility"
@@ -410,14 +410,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="cost">Reports cost-effectiveness?</label>
+            <label htmlFor="cost">Reports cost-effectiveness</label>
             <select name="cost" onChange={handleChange} value={formState.cost}>
               <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
             </select>
           </div>
           <div className="form-group">
-            <label>Open science and data?</label>
+            <label>Open science and data</label>
             {openSources.map((openSource) => (
               <div key={openSource}>
                 <label>
