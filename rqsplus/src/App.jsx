@@ -168,7 +168,10 @@ function App() {
       for (const key in row) {
         let value = row[key];
 
-        if (Array.isArray(value)) {
+        if (key === "name") {
+          // For the "name" column, save the actual name as a string
+          rowValues.push(value.toString());
+        } else if (Array.isArray(value)) {
           // Extract numbers from each array item and sum them
           let sum = value.reduce((acc, item) => {
             if (typeof item === "string") {
