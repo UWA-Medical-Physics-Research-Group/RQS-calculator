@@ -166,10 +166,27 @@ function App() {
       let rowValues = [];
 
       for (const key in row) {
-        if (Array.isArray(row[key])) {
-          rowValues.push(`"${row[key].join(", ")}"`);
+        let value = row[key];
+
+        if (Array.isArray(value)) {
+          // Extract numbers from each array item and sum them
+          let sum = value.reduce((acc, item) => {
+            if (typeof item === "string") {
+              const matches = item.match(/(-?\d+)/g);
+              return matches
+                ? acc + matches.reduce((sum, num) => sum + parseInt(num), 0)
+                : acc;
+            }
+            return acc;
+          }, 0);
+
+          rowValues.push(sum.toString());
+        } else if (typeof value === "string") {
+          // Extract number from the string
+          const match = value.match(/(-?\d+)/);
+          rowValues.push(match ? match[1] : "0");
         } else {
-          rowValues.push(`"${row[key]}"`);
+          rowValues.push(value.toString());
         }
       }
 
@@ -180,7 +197,7 @@ function App() {
 
     // Generate default file name with current local date and time
     const now = new Date();
-    const defaultFileName = `RQSplus-${now
+    const defaultFileName = `RQS-${now
       .toLocaleString("default", {
         year: "numeric",
         month: "2-digit",
@@ -235,10 +252,10 @@ function App() {
   return (
     <div className="App">
       <header>
-        <div className="title">RQSplus</div>
+        <div className="title">RQS Calculator</div>
         <div className="description">
-          A tool designed to calculate the radiomics quality score scores for
-          radiomics papers.
+          A tool designed to calculate the radiomics quality score for radiomics
+          papers.
         </div>
       </header>
       {/* Table Section */}
