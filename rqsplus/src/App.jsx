@@ -158,8 +158,28 @@ function App() {
   const handleExportCSV = async () => {
     let csvContent = "";
 
-    // Add headers
-    const headers = Object.keys(rows[0]).join(",");
+    // Define the specific headers
+    const headers = [
+      "Paper name",
+      "Image protocol quality",
+      "Multiple segmentations",
+      "Phantom study on all scanners",
+      "Imaging at multiple time points",
+      "Feature reduction or adjustment for multiple testing",
+      "Multivariable analysis with non radiomics features",
+      "Detect and discuss biological correlates",
+      "Cut-off analyses",
+      "Discrimination statistics reported",
+      "Calibration statistics reported",
+      "Prospective study registered in a trial database",
+      "Validation",
+      "Comparison to 'gold standard'",
+      "Reports potential clinical utility",
+      "Reports cost-effectiveness",
+      "Open science and data",
+      "Total score",
+    ].join(",");
+
     csvContent += headers + "\r\n";
 
     rows.forEach((row) => {
