@@ -34,7 +34,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         formState.imageProtocolQuality.length === 1) ||
         (formState.imageProtocolQuality.length > 0 &&
           !formState.imageProtocolQuality.includes("None (0)"))) &&
-      formState.multipleSegmentations &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
       ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints) &&
@@ -72,7 +71,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       let errorFields = [];
 
       if (!formState.name) {
-        errorFields.push("name");
+        errorFields.push("first author");
       }
 
       if (!formState.year) {
@@ -80,47 +79,49 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }
 
       if (formState.imageProtocolQuality.length === 0) {
-        errorFields.push("imageProtocolQuality");
+        errorFields.push("image protocol quality");
       }
 
       if (!formState.multipleSegmentations) {
-        errorFields.push("multipleSegmentations");
+        errorFields.push("multiple segmentations");
       }
 
       if (!formState.phantomStudy) {
-        errorFields.push("phantomStudy");
+        errorFields.push("phantom study on all scanners");
       }
 
       if (!formState.multipleTimePoints) {
-        errorFields.push("multipleTimePoints");
+        errorFields.push("imaging at multiple time points");
       }
 
       if (!formState.featureReduction) {
-        errorFields.push("featureReduction");
+        errorFields.push(
+          "feature reduction or adjustment for multiple testing"
+        );
       }
 
       if (!formState.multivariable) {
-        errorFields.push("multivariable");
+        errorFields.push("multivariable analysis with non radiomics features");
       }
 
       if (!formState.biological) {
-        errorFields.push("biological");
+        errorFields.push("detect and discuss biological correlates");
       }
 
       if (!formState.cutOff) {
-        errorFields.push("cutOff");
+        errorFields.push("cut-off analyses");
       }
 
       if (formState.discrimination.length === 0) {
-        errorFields.push("discrimination");
+        errorFields.push("discrimination statistics reported");
       }
 
       if (formState.calibration.length === 0) {
-        errorFields.push("calibration");
+        errorFields.push("calibration statistics reported");
       }
 
       if (!formState.prospective) {
-        errorFields.push("prospective");
+        errorFields.push("prospective study registered in a trial database");
       }
 
       if (!formState.validation) {
@@ -128,22 +129,23 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }
 
       if (!formState.gold) {
-        errorFields.push("gold");
+        errorFields.push("comparison to 'gold standard'");
       }
 
       if (!formState.clinicalUtility) {
-        errorFields.push("clinicalUtility");
+        errorFields.push("reports potential clinical utility");
       }
 
       if (!formState.cost) {
-        errorFields.push("cost");
+        errorFields.push("reports cost-effectiveness");
       }
 
       if (formState.open.length === 0) {
-        errorFields.push("open");
+        errorFields.push("open science and data");
       }
 
-      setErrors(errorFields.join(", "));
+      const errorMessage = `Please include: ${errorFields.join(", ")}`;
+      setErrors(errorMessage);
       return false;
     }
   };
@@ -224,7 +226,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             <input name="name" onChange={handleChange} value={formState.name} />
           </div>
           <div className="form-group">
-            <label htmlFor="name">Year</label>
+            <label htmlFor="year">Year</label>
             <input name="year" onChange={handleChange} value={formState.year} />
           </div>
           <div className="form-group">
