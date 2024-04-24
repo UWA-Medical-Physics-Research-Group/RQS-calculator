@@ -231,9 +231,54 @@ function App() {
       csvContent += rowValues.join(",") + "\r\n";
     });
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
+    //   const blob = new Blob([csvContent], { type: "text/csv" });
 
-    // Generate default file name with current local date and time
+    //   // Generate default file name with current local date and time
+    //   const now = new Date();
+    //   const defaultFileName = `RQS-${now
+    //     .toLocaleString("default", {
+    //       year: "numeric",
+    //       month: "2-digit",
+    //       day: "2-digit",
+    //       hour: "2-digit",
+    //       minute: "2-digit",
+    //     })
+    //     .replace(/[,/: ]/g, "-")}.csv`;
+
+    //   try {
+    //     // Prompt user to choose save location
+    //     const fileHandle = await window.showSaveFilePicker({
+    //       types: [
+    //         {
+    //           description: "CSV files",
+    //           accept: {
+    //             "text/csv": [".csv"],
+    //           },
+    //         },
+    //       ],
+    //       suggestedName: defaultFileName,
+    //     });
+
+    //     // Create a writable stream to the chosen file
+    //     const writableStream = await fileHandle.createWritable();
+
+    //     // Write the blob to the file
+    //     await writableStream.write(blob);
+
+    //     // Close the file and display success message
+    //     await writableStream.close();
+    //   } catch (error) {
+    //     // Handle the error when user cancels the file selection
+    //     if (error.name === "AbortError") {
+    //       console.log("User aborted the file selection.");
+    //     } else {
+    //       console.error("Error exporting CSV:", error);
+    //     }
+    //   }
+    // };
+
+    const csvBlob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
     const now = new Date();
     const defaultFileName = `RQS-${now
       .toLocaleString("default", {
@@ -245,36 +290,16 @@ function App() {
       })
       .replace(/[,/: ]/g, "-")}.csv`;
 
-    try {
-      // Prompt user to choose save location
-      const fileHandle = await window.showSaveFilePicker({
-        types: [
-          {
-            description: "CSV files",
-            accept: {
-              "text/csv": [".csv"],
-            },
-          },
-        ],
-        suggestedName: defaultFileName,
-      });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(csvBlob);
 
-      // Create a writable stream to the chosen file
-      const writableStream = await fileHandle.createWritable();
+    link.setAttribute("href", url);
+    link.setAttribute("download", defaultFileName);
+    link.style.visibility = "hidden";
 
-      // Write the blob to the file
-      await writableStream.write(blob);
-
-      // Close the file and display success message
-      await writableStream.close();
-    } catch (error) {
-      // Handle the error when user cancels the file selection
-      if (error.name === "AbortError") {
-        console.log("User aborted the file selection.");
-      } else {
-        console.error("Error exporting CSV:", error);
-      }
-    }
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
