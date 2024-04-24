@@ -178,6 +178,7 @@ function App() {
       "Reports cost-effectiveness",
       "Open science and data",
       "Total score",
+      "Percentage",
     ].join(",");
 
     csvContent += headers + "\r\n";
@@ -212,6 +213,15 @@ function App() {
           rowValues.push(value.toString());
         }
       }
+
+      // Calculate percentage for "Total score"
+      const totalScore = parseInt(rowValues[17] || 0);
+      let percentage = ((totalScore / 36) * 100).toFixed(2); // Calculate percentage and round to 2 decimal places
+      if (percentage < 0) {
+        percentage = 0;
+      }
+
+      rowValues.push(percentage.toString());
 
       csvContent += rowValues.join(",") + "\r\n";
     });
