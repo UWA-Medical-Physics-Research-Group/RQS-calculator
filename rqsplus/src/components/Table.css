@@ -10,10 +10,9 @@
   box-shadow: 0px 10px 10px #ccc;
   border-radius: 10px;
   white-space: nowrap;
-  width: 200em;
+  width: auto; /* Changed to auto */
   max-width: 80%;
   margin: auto;
-  table-layout: auto;
   overflow-x: auto;
   /* Added max-height and overflow-y properties */
   max-height: 50vh; /* 60% of the viewport height */
@@ -73,4 +72,37 @@
 
 .delete-btn {
   color: #e10d05;
+}
+
+/* Freeze the header */
+.table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2; /* Higher z-index than the first column to ensure it appears above */
+  background-color: #ccc;
+}
+
+/* Freeze the first column */
+th:first-child,
+td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #ccc;
+}
+
+td:first-child {
+  background-color: #eee;
+}
+
+/* Add shadow to the right of the first frozen column */
+td:first-child::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -5px; /* Adjust this value to change the width of the shadow */
+  bottom: 0;
+  width: 5px; /* Adjust this value to change the width of the shadow */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  z-index: 2;
 }
