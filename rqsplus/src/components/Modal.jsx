@@ -5,6 +5,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
       name: "",
+      year: "",
       imageProtocolQuality: ["None (0)"],
       multipleSegmentations: "No (0)",
       phantomStudy: "No (0)",
@@ -28,6 +29,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const validateForm = () => {
     if (
       formState.name &&
+      formState.year &&
       ((formState.imageProtocolQuality.includes("None (0)") &&
         formState.imageProtocolQuality.length === 1) ||
         (formState.imageProtocolQuality.length > 0 &&
@@ -71,6 +73,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
       if (!formState.name) {
         errorFields.push("name");
+      }
+
+      if (!formState.year) {
+        errorFields.push("year");
       }
 
       if (formState.imageProtocolQuality.length === 0) {
@@ -214,8 +220,12 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       <div className="modal">
         <form className="modal-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Paper name</label>
+            <label htmlFor="name">First author</label>
             <input name="name" onChange={handleChange} value={formState.name} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="name">Year</label>
+            <input name="year" onChange={handleChange} value={formState.year} />
           </div>
           <div className="form-group">
             <label>Image protocol quality</label>

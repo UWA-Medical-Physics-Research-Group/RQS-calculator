@@ -10,7 +10,8 @@ export const Table = ({ rows, deleteRow, editRow }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Paper name</th>
+            <th>First author</th>
+            <th>Year</th>
             <th className="expand">Image protocol quality</th>
             <th>Multiple segmentations</th>
             <th>Phantom study on all scanners</th>
@@ -42,6 +43,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             return (
               <tr key={idx}>
                 <td>{row.name}</td>
+                <td>{row.year}</td>
                 <td className="expand">
                   {row.imageProtocolQuality.map((protocol, index) => (
                     <React.Fragment key={index}>

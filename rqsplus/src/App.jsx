@@ -161,6 +161,7 @@ function App() {
     // Define the specific headers
     const headers = [
       "Paper name",
+      "Year",
       "Image protocol quality",
       "Multiple segmentations",
       "Phantom study on all scanners",
@@ -191,6 +192,8 @@ function App() {
 
         if (key === "name") {
           // For the "name" column, save the actual name as a string
+          rowValues.push(value.toString());
+        } else if (key === "year") {
           rowValues.push(value.toString());
         } else if (Array.isArray(value)) {
           // Extract numbers from each array item and sum them
