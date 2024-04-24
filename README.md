@@ -32,3 +32,5 @@
 - [x]  make “none” uppercase
 - [x]  match text to table in paper
 - [ ]  add med phys logo, catcr logo
+- [ ]  add text above the paper saying "Original Publication"
+- [ ]  Edit "clear all" button to com eup with a pop up say "are you sure?"
