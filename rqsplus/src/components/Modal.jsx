@@ -5,7 +5,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
       name: "",
-      imageProtocolQuality: ["none (0)"],
+      imageProtocolQuality: ["None (0)"],
       multipleSegmentations: "No (0)",
       phantomStudy: "No (0)",
       multipleTimePoints: "No (0)",
@@ -13,14 +13,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       multivariable: "No (0)",
       biological: "No (0)",
       cutOff: "No (0)",
-      discrimination: ["none (0)"],
-      calibration: ["none (0)"],
+      discrimination: ["None (0)"],
+      calibration: ["None (0)"],
       prospective: "No (0)",
       validation: "No validation (-5)",
       gold: "No (0)",
       clinicalUtility: "No (0)",
       cost: "No (0)",
-      open: ["none (0)"],
+      open: ["None (0)"],
     }
   );
   const [errors, setErrors] = useState("");
@@ -28,10 +28,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const validateForm = () => {
     if (
       formState.name &&
-      ((formState.imageProtocolQuality.includes("none (0)") &&
+      ((formState.imageProtocolQuality.includes("None (0)") &&
         formState.imageProtocolQuality.length === 1) ||
         (formState.imageProtocolQuality.length > 0 &&
-          !formState.imageProtocolQuality.includes("none (0)"))) &&
+          !formState.imageProtocolQuality.includes("None (0)"))) &&
       formState.multipleSegmentations &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
       ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
@@ -42,14 +42,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ["Yes (+1)", "No (0)"].includes(formState.multivariable) &&
       ["Yes (+1)", "No (0)"].includes(formState.biological) &&
       ["Yes (+1)", "No (0)"].includes(formState.cutOff) &&
-      ((formState.discrimination.includes("none (0)") &&
+      ((formState.discrimination.includes("None (0)") &&
         formState.discrimination.length === 1) ||
         (formState.discrimination.length > 0 &&
-          !formState.discrimination.includes("none (0)"))) &&
-      ((formState.calibration.includes("none (0)") &&
+          !formState.discrimination.includes("None (0)"))) &&
+      ((formState.calibration.includes("None (0)") &&
         formState.calibration.length === 1) ||
         (formState.calibration.length > 0 &&
-          !formState.calibration.includes("none (0)"))) &&
+          !formState.calibration.includes("None (0)"))) &&
       ["Yes (+7)", "No (0)"].includes(formState.prospective) &&
       [
         "No validation (-5)",
@@ -148,15 +148,15 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     if (type === "checkbox") {
       let updatedArray;
 
-      if (value === "none (0)") {
+      if (value === "None (0)") {
         if (checked) {
           updatedArray = [value];
         } else {
-          updatedArray = formState[name].filter((item) => item !== "none (0)");
+          updatedArray = formState[name].filter((item) => item !== "None (0)");
         }
       } else {
         if (checked) {
-          updatedArray = formState[name].filter((item) => item !== "none (0)");
+          updatedArray = formState[name].filter((item) => item !== "None (0)");
           updatedArray.push(value);
         } else {
           updatedArray = formState[name].filter((item) => item !== value);
@@ -185,24 +185,24 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const protocols = [
     "protocols well documented (+1)",
     "public protocol used  (+1)",
-    "none (0)",
+    "None (0)",
   ];
   const discriminations = [
     "a discrimination statistic and its statistical significance are reported (+1)",
     "a resampling method technique is also applied  (+1)",
-    "none (0)",
+    "None (0)",
   ];
   const calibrations = [
     "a calibration statistic and its statistical significance are reported (+1)",
     "a resampling method technique is applied (+1)",
-    "none (0)",
+    "None (0)",
   ];
   const openSources = [
     "scans are open source (+1)",
     "region of interest segmentations are open source (+1)",
     "code is open source (+1)",
     "radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source (+1)",
-    "none (0)",
+    "None (0)",
   ];
 
   return (
@@ -242,8 +242,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multipleSegmentations"
               onChange={handleChange}
               value={formState.multipleSegmentations}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
@@ -252,8 +252,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="phantomStudy"
               onChange={handleChange}
               value={formState.phantomStudy}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
@@ -264,8 +264,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multipleTimePoints"
               onChange={handleChange}
               value={formState.multipleTimePoints}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
@@ -276,11 +276,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="featureReduction"
               onChange={handleChange}
               value={formState.featureReduction}>
-              <option value="Yes, either method (+3)">
-                Yes, either method (+3)
-              </option>
               <option value="No, neither method (-3)">
                 No, neither method (-3)
+              </option>
+              <option value="Yes, either method (+3)">
+                Yes, either method (+3)
               </option>
             </select>
           </div>
@@ -292,8 +292,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="multivariable"
               onChange={handleChange}
               value={formState.multivariable}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
@@ -304,8 +304,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="biological"
               onChange={handleChange}
               value={formState.biological}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
@@ -314,8 +314,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="cutOff"
               onChange={handleChange}
               value={formState.cutOff}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
@@ -360,8 +360,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="prospective"
               onChange={handleChange}
               value={formState.prospective}>
-              <option value="Yes (+7)">Yes (+7)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+7)">Yes (+7)</option>
             </select>
           </div>
           <div className="form-group">
@@ -393,8 +393,8 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           <div className="form-group">
             <label htmlFor="gold">Comparison to 'gold standard'</label>
             <select name="gold" onChange={handleChange} value={formState.gold}>
-              <option value="Yes (+2)">Yes (+2)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+2)">Yes (+2)</option>
             </select>
           </div>
           <div className="form-group">
@@ -405,15 +405,15 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="clinicalUtility"
               onChange={handleChange}
               value={formState.clinicalUtility}>
-              <option value="Yes (+2)">Yes (+2)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+2)">Yes (+2)</option>
             </select>
           </div>
           <div className="form-group">
             <label htmlFor="cost">Reports cost-effectiveness</label>
             <select name="cost" onChange={handleChange} value={formState.cost}>
-              <option value="Yes (+1)">Yes (+1)</option>
               <option value="No (0)">No (0)</option>
+              <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
           <div className="form-group">
