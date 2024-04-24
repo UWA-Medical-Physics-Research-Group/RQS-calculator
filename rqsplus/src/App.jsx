@@ -29,9 +29,9 @@ function App() {
     let totalScore = 0;
 
     newRow.imageProtocolQuality.forEach((protocol) => {
-      if (protocol === "protocols well documented (+1)") {
+      if (protocol === "Protocols well documented (+1)") {
         totalScore += 1;
-      } else if (protocol === "public protocol used  (+1)") {
+      } else if (protocol === "Public protocol used  (+1)") {
         totalScore += 1;
       }
     });
@@ -66,13 +66,13 @@ function App() {
       totalScore += 1;
     }
 
-    if (newRow.discrimination.includes("none (0)")) {
+    if (newRow.discrimination.includes("None (0)")) {
       totalScore += 0;
     } else {
       totalScore += newRow.discrimination.length;
     }
 
-    if (newRow.calibration.includes("none (0)")) {
+    if (newRow.calibration.includes("None (0)")) {
       totalScore += 0;
     } else {
       totalScore += newRow.calibration.length;
@@ -117,7 +117,7 @@ function App() {
       totalScore += 1;
     }
 
-    if (newRow.open.length > 0 && !newRow.open.includes("none (0)")) {
+    if (newRow.open.length > 0 && !newRow.open.includes("None (0)")) {
       totalScore += newRow.open.length;
     }
 

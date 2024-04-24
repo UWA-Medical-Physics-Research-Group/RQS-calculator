@@ -191,25 +191,25 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   };
 
   const protocols = [
-    "protocols well documented (+1)",
-    "public protocol used  (+1)",
+    "Protocols well documented (+1)",
+    "Public protocol used  (+1)",
     "None (0)",
   ];
   const discriminations = [
-    "a discrimination statistic and its statistical significance are reported (+1)",
-    "a resampling method technique is also applied  (+1)",
+    "A discrimination statistic and its statistical significance are reported (+1)",
+    "A resampling method technique is also applied  (+1)",
     "None (0)",
   ];
   const calibrations = [
-    "a calibration statistic and its statistical significance are reported (+1)",
-    "a resampling method technique is applied (+1)",
+    "A calibration statistic and its statistical significance are reported (+1)",
+    "A resampling method technique is applied (+1)",
     "None (0)",
   ];
   const openSources = [
-    "scans are open source (+1)",
-    "region of interest segmentations are open source (+1)",
-    "code is open source (+1)",
-    "radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source (+1)",
+    "Scans are open source (+1)",
+    "Region of interest segmentations are open source (+1)",
+    "Code is open source (+1)",
+    "Radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source (+1)",
     "None (0)",
   ];
 
