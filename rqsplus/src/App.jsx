@@ -48,9 +48,11 @@ function App() {
       totalScore += 1;
     }
 
-    if (newRow.featureReduction === "Yes, either method (+3)") {
+    if (newRow.featureReduction === "Yes, either method implemented (+3)") {
       totalScore += 3;
-    } else if (newRow.featureReduction === "No, neither method (-3)") {
+    } else if (
+      newRow.featureReduction === "No, neither method implemented (-3)"
+    ) {
       totalScore -= 3;
     }
 
@@ -218,7 +220,7 @@ function App() {
       }
 
       // Calculate percentage for "Total score"
-      const totalScore = parseInt(rowValues[17] || 0);
+      const totalScore = parseInt(rowValues[18] || 0);
       let percentage = ((totalScore / 36) * 100).toFixed(2); // Calculate percentage and round to 2 decimal places
       if (percentage < 0) {
         percentage = 0;

@@ -10,7 +10,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       multipleSegmentations: "No (0)",
       phantomStudy: "No (0)",
       multipleTimePoints: "No (0)",
-      featureReduction: "No, neither method (-3)",
+      featureReduction: "No, neither method implemented (-3)",
       multivariable: "No (0)",
       biological: "No (0)",
       cutOff: "No (0)",
@@ -37,9 +37,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
       ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
       ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints) &&
-      ["Yes, either method (+3)", "No, neither method (-3)"].includes(
-        formState.featureReduction
-      ) &&
+      [
+        "Yes, either method implemented (+3)",
+        "No, neither method implemented (-3)",
+      ].includes(formState.featureReduction) &&
       ["Yes (+1)", "No (0)"].includes(formState.multivariable) &&
       ["Yes (+1)", "No (0)"].includes(formState.biological) &&
       ["Yes (+1)", "No (0)"].includes(formState.cutOff) &&
@@ -288,11 +289,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               name="featureReduction"
               onChange={handleChange}
               value={formState.featureReduction}>
-              <option value="No, neither method (-3)">
-                No, neither method (-3)
+              <option value="No, neither method implemented (-3)">
+                No, neither method implemented (-3)
               </option>
-              <option value="Yes, either method (+3)">
-                Yes, either method (+3)
+              <option value="Yes, either method implemented (+3)">
+                Yes, either method implemented (+3)
               </option>
             </select>
           </div>
