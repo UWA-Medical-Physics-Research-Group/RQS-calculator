@@ -14,19 +14,19 @@ export const Table = ({ rows, deleteRow, editRow }) => {
             <th>Year</th>
             <th className="expand">Image protocol quality</th>
             <th>Multiple segmentations</th>
-            <th>Phantom study on all scanners</th>
+            <th>Phantom study</th>
             <th>Imaging at multiple time points</th>
             <th>Feature reduction or adjustment for multiple testing</th>
-            <th>Multivariable analysis with non radiomics features</th>
-            <th>Detect and discuss biological correlates</th>
-            <th>Cut-off analyses</th>
-            <th>Discrimination statistics reported</th>
-            <th>Calibration statistics reported</th>
-            <th>Prospective study registered in a trial database</th>
+            <th>Multivariable analysis</th>
+            <th>Biological correlates</th>
+            <th>Cut-off analysis</th>
+            <th>Discrimination statistics</th>
+            <th>Calibration statistics</th>
+            <th>Prospective study</th>
             <th>Validation</th>
             <th>Comparison to 'gold standard'</th>
-            <th>Reports potential clinical utility</th>
-            <th>Reports cost-effectiveness</th>
+            <th>Potential clinical applications</th>
+            <th>Cost-effectiveness analysis</th>
             <th>Open science and data</th>
             <th>Total score</th>
             <th>Actions</th>

@@ -88,7 +88,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }
 
       if (!formState.phantomStudy) {
-        errorFields.push("phantom study on all scanners");
+        errorFields.push("phantom study");
       }
 
       if (!formState.multipleTimePoints) {
@@ -102,27 +102,27 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }
 
       if (!formState.multivariable) {
-        errorFields.push("multivariable analysis with non radiomics features");
+        errorFields.push("multivariable analysis");
       }
 
       if (!formState.biological) {
-        errorFields.push("detect and discuss biological correlates");
+        errorFields.push("biological correlates");
       }
 
       if (!formState.cutOff) {
-        errorFields.push("cut-off analyses");
+        errorFields.push("cut-off analysis");
       }
 
       if (formState.discrimination.length === 0) {
-        errorFields.push("discrimination statistics reported");
+        errorFields.push("discrimination statistics");
       }
 
       if (formState.calibration.length === 0) {
-        errorFields.push("calibration statistics reported");
+        errorFields.push("calibration statistics");
       }
 
       if (!formState.prospective) {
-        errorFields.push("prospective study registered in a trial database");
+        errorFields.push("prospective study");
       }
 
       if (!formState.validation) {
@@ -134,11 +134,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }
 
       if (!formState.clinicalUtility) {
-        errorFields.push("reports potential clinical utility");
+        errorFields.push("potential clinical applications");
       }
 
       if (!formState.cost) {
-        errorFields.push("reports cost-effectiveness");
+        errorFields.push("cost-effectiveness analysis");
       }
 
       if (formState.open.length === 0) {
@@ -260,7 +260,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="phantomStudy">Phantom study on all scanners</label>
+            <label htmlFor="phantomStudy">Phantom study</label>
             <select
               name="phantomStudy"
               onChange={handleChange}
@@ -298,9 +298,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="multivariable">
-              Multivariable analysis with non radiomics features
-            </label>
+            <label htmlFor="multivariable">Multivariable analysis</label>
             <select
               name="multivariable"
               onChange={handleChange}
@@ -310,9 +308,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="biological">
-              Detect and discuss biological correlates
-            </label>
+            <label htmlFor="biological">Biological correlates</label>
             <select
               name="biological"
               onChange={handleChange}
@@ -322,7 +318,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="cutOff">Cut-off analyses</label>
+            <label htmlFor="cutOff">Cut-off analysis</label>
             <select
               name="cutOff"
               onChange={handleChange}
@@ -366,9 +362,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             ))}
           </div>
           <div className="form-group">
-            <label htmlFor="prospective">
-              Prospective study registered in a trial database
-            </label>
+            <label htmlFor="prospective">Prospective study</label>
             <select
               name="prospective"
               onChange={handleChange}
@@ -412,7 +406,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="clinicalUtility">
-              Reports potential clinical utility
+              Potential clinical applications
             </label>
             <select
               name="clinicalUtility"
@@ -423,7 +417,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="cost">Reports cost-effectiveness</label>
+            <label htmlFor="cost">Cost-effectiveness analysis</label>
             <select name="cost" onChange={handleChange} value={formState.cost}>
               <option value="No (0)">No (0)</option>
               <option value="Yes (+1)">Yes (+1)</option>
