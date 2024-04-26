@@ -12,7 +12,7 @@
 ### Edits to implement:
 
 - [x] click on text to check checkbox
-- [ ] add description for each question. Can maybe hover over a '?' or just include a description below
+- [x] add description for each question. Can maybe hover over a '?' or just include a description below
 - [ ] improve styling
 - [ ] some of the columns are aligned weirdly. Need to fix that
 - [x] export as csv functionality
@@ -32,5 +32,5 @@
 - [x]  make “none” uppercase
 - [x]  match text to table in paper
 - [ ]  add med phys logo, catcr logo
-- [ ]  add text above the paper saying "Original Publication"
+- [x]  add text above the paper saying "Original Publication"
 - [ ]  Edit "clear all" button to com eup with a pop up say "are you sure?"
