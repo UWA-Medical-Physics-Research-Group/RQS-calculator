@@ -53,7 +53,7 @@
 .footer {
   width: 100%;
   background-color: #f5f5f5;
-  padding: 20px;
+  padding: 30px;
   text-align: center;
   font-size: 0.9em;
 }
@@ -63,6 +63,12 @@
 } */
 
 .footer a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.table-container a {
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
@@ -84,4 +90,44 @@
   font-size: 1.2em;
   margin-bottom: 40px;
   color: #666;
+}
+
+.table-container {
+  /* table container styles */
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: 80%;
+  box-shadow: none;
+  /* border: 1px solid #ddd; */
+  /* border-radius: 5px; */
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); subtle shadow */
+}
+
+.data-table {
+  /* table styles */
+  box-shadow: none;
+  margin: 0 auto; /* center the table on the page */
+  border-collapse: collapse;
+}
+
+.table-header,
+.data-table tr {
+  /* style for both header and rows */
+  background-color: #f2f2f2;
+}
+
+.table-header th,
+.data-table td {
+  /* style for header cells and data cells */
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+
+.text-center {
+  text-align: center;
+  background-color: #ccc;
+}
+
+.text-left {
+  text-align: left;
 }

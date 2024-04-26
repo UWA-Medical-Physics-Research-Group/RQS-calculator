@@ -22,7 +22,6 @@
   top: 0;
   z-index: 2; /* Higher z-index than the first column to ensure it appears above */
   background-color: #ccc;
-  background-color: #ccc;
   color: #222;
 }
 

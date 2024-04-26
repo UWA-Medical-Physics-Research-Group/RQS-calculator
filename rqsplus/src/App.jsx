@@ -350,6 +350,324 @@ function App() {
         />
       )}
 
+      <div class="table-container">
+        <div className="description">
+          For more information about the criteria, please refer to the table
+          below. From:{" "}
+          <a href="https://doi.org/10.1038/nrclinonc.2017.141">
+            {" "}
+            Radiomics: the bridge between medical imaging and personalized
+            medicine
+          </a>
+        </div>
+        <table class="data-table">
+          <thead class="table-header">
+            <tr>
+              <th class="text-center " colspan="2">
+                <p>Criteria</p>
+              </th>
+              <th class="text-center">
+                <p>Points</p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left">
+                <p>1</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Image protocol quality - well-documented image protocols (for
+                  example, contrast, slice thickness, energy, etc.) and/or usage
+                  of public image protocols allow reproducibility/replicability
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  + 1 (if protocols are well-documented) + 1 (if public protocol
+                  is used)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>2</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Multiple segmentations - possible actions are: segmentation by
+                  different physicians/algorithms/software, perturbing
+                  segmentations by (random) noise, segmentation at different
+                  breathing cycles. Analyse feature robustness to segmentation
+                  variabilities
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>3</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Phantom study on all scanners - detect inter-scanner
+                  differences and vendor-dependent features. Analyse feature
+                  robustness to these sources of variability
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>4</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Imaging at multiple time points - collect images of
+                  individuals at additional time points. Analyse feature
+                  robustness to temporal variabilities (for example, organ
+                  movement, organ expansion/shrinkage)
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>5</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Feature reduction or adjustment for multiple testing -
+                  decreases the risk of overfitting. Overfitting is inevitable
+                  if the number of features exceeds the number of samples.
+                  Consider feature robustness when selecting features
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  − 3 (if neither measure is implemented) + 3 (if either measure
+                  is implemented)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>6</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Multivariable analysis with non radiomics features (for
+                  example, EGFR mutation) - is expected to provide a more
+                  holistic model. Permits correlating/inferencing between
+                  radiomics and non radiomics features
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>7</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Detect and discuss biological correlates - demonstration of
+                  phenotypic differences (possibly associated with underlying
+                  gene–protein expression patterns) deepens understanding of
+                  radiomics and biology
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>8</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Cut-off analyses - determine risk groups by either the median,
+                  a previously published cut-off or report a continuous risk
+                  variable. Reduces the risk of reporting overly optimistic
+                  results
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>9</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Discrimination statistics - report discrimination statistics
+                  (for example, C-statistic, ROC curve, AUC) and their
+                  statistical significance (for example, p-values, confidence
+                  intervals). One can also apply resampling method (for example,
+                  bootstrapping, cross-validation)
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  + 1 (if a discrimination statistic and its statistical
+                  significance are reported) + 1 (if a resampling method
+                  technique is also applied)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>10</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Calibration statistics - report calibration statistics (for
+                  example, Calibration-in-the-large/slope, calibration plots)
+                  and their statistical significance (for example, <i>P</i>
+                  -values, confidence intervals). One can also apply resampling
+                  method (for example, bootstrapping, cross-validation)
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  + 1 (if a calibration statistic and its statistical
+                  significance are reported) + 1 (if a resampling method
+                  technique is also applied)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>11</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Prospective study registered in a trial database - provides
+                  the highest level of evidence supporting the clinical validity
+                  and usefulness of the radiomics biomarker
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  + 7 (for prospective validation of a radiomics signature in an
+                  appropriate trial)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>12</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Validation - the validation is performed without retraining
+                  and without adaptation of the cut-off value, provides crucial
+                  information with regard to credible clinical performance
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  - 5 (if validation is missing) + 2 (if validation is based on
+                  a dataset from the same institute) + 3 (if validation is based
+                  on a dataset from another institute) + 4 (if validation is
+                  based on two datasets from two distinct institutes) + 4 (if
+                  the study validates a previously published signature) + 5 (if
+                  validation is based on three or more datasets from distinct
+                  institutes)
+                </p>
+                <p>
+                  *Datasets should be of comparable size and should have at
+                  least 10 events per model feature
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>13</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Comparison to 'gold standard' - assess the extent to which the
+                  model agrees with/is superior to the current 'gold standard'
+                  method (for example, TNM-staging for survival prediction).
+                  This comparison shows the added value of radiomics
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 2</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>14</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Potential clinical utility - report on the current and
+                  potential application of the model in a clinical setting (for
+                  example, decision curve analysis).
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 2</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>15</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Cost-effectiveness analysis - report on the cost-effectiveness
+                  of the clinical application (for example, QALYs generated)
+                </p>
+              </td>
+              <td class="text-left">
+                <p>+ 1</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                <p>16</p>
+              </td>
+              <td class="text-left">
+                <p>
+                  Open science and data - make code and data publicly available.
+                  Open science facilitates knowledge transfer and
+                  reproducibility of the study
+                </p>
+              </td>
+              <td class="text-left">
+                <p>
+                  + 1 (if scans are open source) + 1 (if region of interest
+                  segmentations are open source) + 1 (if code is open source) +
+                  1 (if radiomics features are calculated on a set of
+                  representative ROIs and the calculated features and
+                  representative ROIs are open source)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">&nbsp;</td>
+              <td class="text-center " colspan="2">
+                <p>Total points (36 = 100%)</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       {/* Footer Section */}
       <footer className="footer">
         <div className="footer-content">
