@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "./components/Modal";
 import { Table } from "./components/Table";
 import "./App.css";
+
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [rows, setRows] = useState(() => {
@@ -452,7 +453,7 @@ function App() {
               </td>
               <td class="text-left">
                 <p>
-                  − 3 (if neither measure is implemented) + 3 (if either measure
+                  - 3 (if neither measure is implemented) + 3 (if either measure
                   is implemented)
                 </p>
               </td>
