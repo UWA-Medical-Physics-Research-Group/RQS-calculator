@@ -314,7 +314,7 @@ function App() {
 
   return (
     <div className="App">
-      <header>
+      <header className="header">
         <div className="title">RQS Calculator</div>
         <div className="description">
           A tool designed to calculate the radiomics quality score for radiomics

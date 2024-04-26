@@ -14,12 +14,14 @@
   max-width: 80%;
   margin: auto;
   overflow-x: auto;
-  /* Added max-height and overflow-y properties */
-  max-height: 50vh; /* 60% of the viewport height */
-  overflow-y: auto; /* Enable vertical scrollbar */
+  /* Removed max-height and overflow-y properties */
 }
 
 .table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2; /* Higher z-index than the first column to ensure it appears above */
+  background-color: #ccc;
   background-color: #ccc;
   color: #222;
 }
@@ -72,14 +74,6 @@
 
 .delete-btn {
   color: #e10d05;
-}
-
-/* Freeze the header */
-.table thead {
-  position: sticky;
-  top: 0;
-  z-index: 2; /* Higher z-index than the first column to ensure it appears above */
-  background-color: #ccc;
 }
 
 /* Freeze the first column */
