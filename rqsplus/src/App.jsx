@@ -324,22 +324,25 @@ function App() {
       </header>
       {/* Table Section */}
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <button className="btn" onClick={handleAddRow}>
-        Add
-      </button>
-      {showClearButton && (
-        <button className="btn" onClick={handleClearAll}>
-          {isCleared ? "Undo Clear" : "Clear All"}
+      <div className="button-container">
+        <button className="btn" onClick={handleAddRow}>
+          Add
         </button>
-      )}
-      {isCleared && deletedRows.length > 0 && (
-        <button className="btn" onClick={handleUndoClear}>
-          Undo Clear
+        {showClearButton && (
+          <button className="btn" onClick={handleClearAll}>
+            {isCleared ? "Undo Clear" : "Clear All"}
+          </button>
+        )}
+        {isCleared && deletedRows.length > 0 && (
+          <button className="btn" onClick={handleUndoClear}>
+            Undo Clear
+          </button>
+        )}
+        <button className="btn" onClick={handleExportCSV}>
+          Export as CSV
         </button>
-      )}
-      <button className="btn" onClick={handleExportCSV}>
-        Export as CSV
-      </button>
+      </div>
+
       {modalOpen && (
         <Modal
           closeModal={() => {
@@ -676,6 +679,7 @@ function App() {
             Tool conceptualised by Nathaniel Barry and created by Kaylee Molin.
           </p>
           <p>
+            <br />
             If you have used this tool, please cite:
             <br />
             <br />

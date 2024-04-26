@@ -11,18 +11,6 @@
   margin-top: 3rem;
 }
 
-.btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border: none;
-  background-color: #1d4ed8;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0px 5px 5px #ccc;
-}
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -130,4 +118,23 @@
 
 .text-left {
   text-align: left;
+}
+
+.button-container {
+  display: flex;
+}
+
+.btn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  background-color: #1d4ed8;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 5px 5px #ccc;
+  flex: 1;
+  margin-right: 15px; /* Adjust as needed */
+  min-width: 120px; /* Set your desired width */
 }
