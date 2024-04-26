@@ -677,8 +677,11 @@ function App() {
           <p>
             If you have used this tool, please cite:
             <br />
+            <br />
             *Nathaniel's paper will be here*
             <br />
+            <br />
+            <p>Original paper:</p>
             <a href="https://www.nature.com/articles/nrclinonc.2017.141">
               Radiomics: the bridge between medical imaging and personalized
               medicine
@@ -690,6 +693,7 @@ function App() {
             medicine */}
           </p>
         </div>
+        <br />
         <div className="contact-info">
           <p>
             For inquiries or further information, please contact us at:
