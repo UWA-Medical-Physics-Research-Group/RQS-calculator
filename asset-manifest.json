@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/RQSplus/static/css/main.6d61560b.css",
+    "main.js": "/RQSplus/static/js/main.08e2cab2.js",
+    "static/js/453.eee831ef.chunk.js": "/RQSplus/static/js/453.eee831ef.chunk.js",
+    "index.html": "/RQSplus/index.html",
+    "main.6d61560b.css.map": "/RQSplus/static/css/main.6d61560b.css.map",
+    "main.08e2cab2.js.map": "/RQSplus/static/js/main.08e2cab2.js.map",
+    "453.eee831ef.chunk.js.map": "/RQSplus/static/js/453.eee831ef.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d61560b.css",
+    "static/js/main.08e2cab2.js"
+  ]
+}
