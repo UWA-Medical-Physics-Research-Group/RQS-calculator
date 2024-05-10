@@ -326,7 +326,7 @@ function App() {
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
       <div className="button-container">
         <button className="btn" onClick={handleAddRow}>
-          Add
+          Add Paper
         </button>
         {showClearButton && (
           <button className="btn" onClick={handleClearAll}>
@@ -695,7 +695,7 @@ function App() {
             Published: 04 October 2017
             <br />
             {/* Radiomics: the bridge between medical imaging and personalized
-            medicine */}
+      medicine */}
           </p>
         </div>
         <br />
@@ -703,15 +703,17 @@ function App() {
           <p>
             For inquiries or further information, please contact us at:
             <br />
-            Nathaniel Barry{" "}
+            Nathaniel Barry:{" "}
             <a href="mailto:nathaniel.barry@research.uwa.edu.au">
               nathaniel.barry@research.uwa.edu.au
             </a>
             <br />
-            Kaylee Molin{" "}
+            Kaylee Molin:{" "}
             <a href="mailto:22734429@student.uwa.edu.au">
               22734429@student.uwa.edu.au
             </a>
+            {" | "}
+            <a href="https://www.linkedin.com/in/kaylee-molin/">LinkedIn</a>
           </p>
         </div>
       </footer>
