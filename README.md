@@ -1,7 +1,7 @@
-# RQSplus
+# RQS-calculator
 
 ## Website
-https://uwa-medical-physics-research-group.github.io/RQSplus/
+[https://uwa-medical-physics-research-group.github.io/RQSplus/](https://uwa-medical-physics-research-group.github.io/RQS-calculator/)
 
 ### Installations
 
