@@ -678,24 +678,40 @@ function App() {
           <p>
             Tool conceptualised by Nathaniel Barry and created by Kaylee Molin.
           </p>
+          <br />
+
           <p>
+            If you have used this tool, please cite the following publication:
             <br />
-            If you have used this tool, please cite:
+            <strong>Barry N, Kendrick J, Molin K, et al.</strong>{" "}
+            <em>
+              Evaluating the impact of the Radiomics Quality Score: a systematic
+              review and meta-analysis.
+            </em>
             <br />
-            <br />
-            *Nathaniel's paper will be here*
-            <br />
-            <br />
-            <p>Original paper:</p>
-            <a href="https://www.nature.com/articles/nrclinonc.2017.141">
-              Radiomics: the bridge between medical imaging and personalized
-              medicine
+            <em>European Radiology.</em> 2025.{" "}
+            <a href="https://doi.org/10.1007/s00330-024-11341-y">
+              https://doi.org/10.1007/s00330-024-11341-y
             </a>
+          </p>
+          <br />
+          <p>
+            Original foundational paper:
             <br />
-            Published: 04 October 2017
+            <strong>
+              Lambin P, Rios-Velazquez E, Leijenaar R, et al.
+            </strong>{" "}
+            <em>
+              Radiomics: the bridge between medical imaging and personalized
+              medicine.
+            </em>
             <br />
-            {/* Radiomics: the bridge between medical imaging and personalized
-      medicine */}
+            <em>Nature Reviews Clinical Oncology.</em> Published: 04 October
+            2017.
+            <br />
+            <a href="https://doi.org/10.1038/nrclinonc.2017.141">
+              https://doi.org/10.1038/nrclinonc.2017.141
+            </a>
           </p>
         </div>
         <br />
@@ -703,12 +719,12 @@ function App() {
           <p>
             For inquiries or further information, please contact us at:
             <br />
-            Nathaniel Barry:{" "}
+            <strong>Nathaniel Barry:</strong>{" "}
             <a href="mailto:nathaniel.barry@research.uwa.edu.au">
               nathaniel.barry@research.uwa.edu.au
             </a>
             <br />
-            Kaylee Molin:{" "}
+            <strong>Kaylee Molin:</strong>{" "}
             <a href="mailto:22734429@student.uwa.edu.au">
               22734429@student.uwa.edu.au
             </a>
