@@ -85,23 +85,7 @@ This guide outlines the steps to make changes, build the website, and deploy it 
 
 ## Workflow
 
-### 1. **Switch to the Project Directory**
-
-Navigate to the `rqsplus` directory:
-
-```bash
-cd /path/to/rqsplus
-```
-
-### 2. **Install Dependencies**
-
-Install the required dependencies by running:
-
-```bash
-npm install
-```
-
-### 3. **Make Changes on the `main` Branch**
+### 1. **Make Changes on the `main` Branch**
 
 1. Ensure you are on the `main` branch:
 
@@ -109,130 +93,60 @@ npm install
    git checkout main
    ```
 
-2. Make your changes to the source code (e.g., edit `App.jsx`, styles, etc.).
+2. Make your changes to the source code (e.g., `App.jsx`, CSS, etc.).
 
-3. Test the application locally to confirm the changes:
+3. Test your changes locally to confirm everything works as expected:
 
    ```bash
    npm start
    ```
 
-   Visit `http://localhost:3000` in your browser to verify that everything works as expected.
+   - Open `http://localhost:3000` in your browser to verify.
 
 ---
 
-### 4. **Build the Project**
+### 2. **Deploy the Changes to GitHub Pages**
 
-Once you’re satisfied with the changes, build the production-ready version of the website:
+1. Deploy your changes by running:
 
-```bash
-npm run build
-```
+   ```bash
+   npm run deploy
+   ```
 
-This will create a `build/` directory containing the optimised static files (e.g., `index.html`, CSS, JS).
+2. What happens:
+   - The **`predeploy`** script (`npm run build`) creates a production-ready version of your app in the `build/` directory.
+   - The **`deploy`** script (`gh-pages -d build`) publishes the `build/` directory to the `gh-pages` branch.
 
 ---
 
-### 5. **Deploy to GitHub Pages**
+### 3. **Verify the Deployment**
 
-#### **Option 1: Deploy Directly to `gh-pages`**
-
-1. Switch to the `gh-pages` branch:
-
-   ```bash
-   git checkout gh-pages
+1. Wait a few moments for GitHub Pages to process the changes.
+2. Visit your GitHub Pages URL to see the live changes:
    ```
-
-2. Remove all files in the branch:
-
-   ```bash
-   rm -rf *
-   ```
-
-3. Copy only the contents of the `build/` directory to the root of the branch:
-
-   ```bash
-   cp -r build/* .
-   ```
-
-   Make sure you do not include the `build` folder itself, only its contents.
-
-4. Commit and push the changes:
-   ```bash
-   git add .
-   git commit -m "Deploy updated site"
-   git push origin gh-pages
-   ```
-
-#### **Option 2: Deploy to a Temporary Branch (For Testing)**
-
-If you want to test the changes before deploying them to `gh-pages`:
-
-1. Create and switch to a new temporary branch:
-
-   ```bash
-   git checkout -b gh-pages-temp
-   ```
-
-2. Remove all files in the branch:
-
-   ```bash
-   rm -rf *
-   ```
-
-3. Copy the contents of the `build/` directory to the root:
-
-   ```bash
-   cp -r build/* .
-   ```
-
-4. Commit and push the changes:
-
-   ```bash
-   git add .
-   git commit -m "Test deployment"
-   git push origin gh-pages-temp
-   ```
-
-5. Go to the repository’s **Settings** → **Pages**, and set the source to `gh-pages-temp`.
-
-6. Wait a few minutes and test the deployment at your GitHub Pages URL:
-
-   ```
-   https://<your-username>.github.io/<repository-name>/
-   ```
-
-7. If satisfied, merge `gh-pages-temp` into `gh-pages` or rename it:
-
-   ```bash
-   git checkout gh-pages
-   git merge gh-pages-temp
-   git push origin gh-pages
-   ```
-
-8. Delete the temporary branch:
-   ```bash
-   git branch -D gh-pages-temp
-   git push origin --delete gh-pages-temp
+   https://uwa-medical-physics-research-group.github.io/RQS-calculator/
    ```
 
 ---
 
-### 6. **Final Verification**
+### Troubleshooting Tips
 
-Visit your GitHub Pages URL to confirm the website is working as expected:
-
-```
-https://<your-username>.github.io/<repository-name>/
-```
+- **Custom Domain**: If you’re using a custom domain, ensure the `CNAME` file in the `build/` directory is correctly configured before deployment.
+- **Changes Not Reflecting**: Clear your browser cache or use an incognito window to ensure you’re seeing the latest version.
 
 ---
 
-### Notes
+### Summary
 
-- Always test your changes locally (`npm start`) before building and deploying.
-- Ensure you commit all changes before switching branches.
-- Use a temporary branch for testing if you’re unsure about the deployment.
+To make your changes live:
+
+1. Make changes on the `main` branch.
+2. Test locally using `npm start`.
+3. Deploy using:
+   ```bash
+   npm run deploy
+   ```
+4. Verify the changes on your GitHub Pages URL.
 
 ---
 

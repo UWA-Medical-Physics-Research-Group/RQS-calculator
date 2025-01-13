@@ -706,9 +706,7 @@ function App() {
               medicine.
             </em>
             <br />
-            <em>Nature Reviews Clinical Oncology.</em> Published: 04 October
-            2017.
-            <br />
+            <em>Nature Reviews Clinical Oncology.</em> 2017. <br />
             <a href="https://doi.org/10.1038/nrclinonc.2017.141">
               https://doi.org/10.1038/nrclinonc.2017.141
             </a>
