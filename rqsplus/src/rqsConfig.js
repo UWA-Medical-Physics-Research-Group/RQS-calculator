@@ -381,7 +381,7 @@ const rqs2Criteria = [
     number: 8,
     stage: 2,
     stageTitle: "RRL 2 - Data Preparation",
-    label: "Harmonization",
+    label: "Harmonisation",
     description:
       "Use image-level or feature-level harmonisation methods where appropriate.",
     pointsText: "+1",
@@ -1012,15 +1012,43 @@ export const getVisibleCriteriaForSelection = (
 
 export const getMaxScore = (version, maxRrl = null) =>
   getVisibleCriteria(version, maxRrl).reduce((sum, criterion) => {
-    const maxOptionScore = Math.max(
-      ...criterion.options.map((option) => option.score)
-    );
+    const maxOptionScore =
+      criterion.inputType === "multi"
+        ? criterion.options.reduce(
+            (optionSum, option) => optionSum + Math.max(0, option.score),
+            0
+          )
+        : Math.max(...criterion.options.map((option) => option.score));
 
     return sum + maxOptionScore;
   }, 0);
 
+export const getMaxScoreForSelection = (
+  version,
+  maxRrl = null,
+  method = ""
+) =>
+  getVisibleCriteriaForSelection(version, maxRrl, method).reduce(
+    (sum, criterion) => {
+      const maxOptionScore =
+        criterion.inputType === "multi"
+          ? criterion.options.reduce(
+              (optionSum, option) => optionSum + Math.max(0, option.score),
+              0
+            )
+          : Math.max(...criterion.options.map((option) => option.score));
+
+      return sum + maxOptionScore;
+    },
+    0
+  );
+
 export const calculateRowScores = (row) => {
-  const visibleCriteria = getVisibleCriteria(row.version, row.maxRrl);
+  const visibleCriteria = getVisibleCriteriaForSelection(
+    row.version,
+    row.maxRrl,
+    row.method
+  );
 
   const totalScore = visibleCriteria.reduce((sum, criterion) => {
     const answer = row.answers?.[criterion.id];
@@ -1042,7 +1070,7 @@ export const calculateRowScores = (row) => {
   return {
     ...row,
     totalScore,
-    maxScore: getMaxScore(row.version, row.maxRrl),
+    maxScore: getMaxScoreForSelection(row.version, row.maxRrl, row.method),
   };
 };
 

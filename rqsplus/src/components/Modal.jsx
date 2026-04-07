@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   RQS_VERSIONS,
   calculateRowScores,
@@ -8,7 +8,8 @@ import {
 import "./Modal.css";
 
 export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
-  const [formState, setFormState] = useState(defaultValue || createInitialRow(version));
+  const initialValueRef = useRef(defaultValue || createInitialRow(version));
+  const [formState, setFormState] = useState(initialValueRef.current);
   const [errors, setErrors] = useState("");
 
   const config = RQS_VERSIONS[formState.version];
@@ -22,6 +23,30 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
       ),
     [formState.version, formState.maxRrl, formState.method]
   );
+
+  const liveScore = useMemo(() => calculateRowScores(formState), [formState]);
+  const livePercentage =
+    liveScore.maxScore > 0
+      ? ((liveScore.totalScore / liveScore.maxScore) * 100).toFixed(2)
+      : "0.00";
+
+  const hasUnsavedChanges =
+    JSON.stringify(formState) !== JSON.stringify(initialValueRef.current);
+
+  const handleRequestClose = () => {
+    if (!hasUnsavedChanges) {
+      closeModal();
+      return;
+    }
+
+    const shouldDiscard = window.confirm(
+      "You have unsaved changes. Discard them and close this form?"
+    );
+
+    if (shouldDiscard) {
+      closeModal();
+    }
+  };
 
   const updateField = (field, value) => {
     setFormState((current) => ({ ...current, [field]: value }));
@@ -75,6 +100,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
     criterion.options.length === 2 &&
     criterion.options.every((option) => option.label.length <= 12);
 
+  const getSelectionHint = (criterion) =>
+    criterion.inputType === "multi" ? "Select multiple" : "Select one";
+
   const validateForm = () => {
     const missingFields = [];
 
@@ -126,12 +154,29 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
     closeModal();
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (!hasUnsavedChanges) {
+        return;
+      }
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
+
   return (
     <div
       className="modal-container"
       onClick={(event) => {
         if (event.target.className === "modal-container") {
-          closeModal();
+          handleRequestClose();
         }
       }}>
       <div className="modal">
@@ -225,62 +270,89 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
                 )}
 
                 <div className="modal-form-group">
-                  <label>
-                    {criterion.number}. {criterion.label}
-                  </label>
+                  <div className="question-heading-row">
+                    <label className="question-title">
+                      {criterion.number}. {criterion.label}
+                    </label>
+                    <span className="question-hint">
+                      {getSelectionHint(criterion)}
+                    </span>
+                  </div>
                   {criterion.description && (
                     <p className="question-description">{criterion.description}</p>
                   )}
 
                   {criterion.inputType === "multi" ? (
                     <div className="checkbox-group">
-                      {criterion.options.map((option) => (
-                        <label className="checkbox-option" key={option.label}>
-                          <input
-                            type="checkbox"
-                            name={criterion.id}
-                            value={option.label}
-                            onChange={(event) =>
-                              updateAnswer(
-                                criterion,
-                                option.label,
-                                event.target.checked
-                              )
-                            }
-                            checked={
-                              Array.isArray(formState.answers[criterion.id]) &&
-                              formState.answers[criterion.id].includes(option.label)
-                            }
-                          />
-                          <span>{option.label}</span>
-                        </label>
-                      ))}
+                      {criterion.options.map((option) => {
+                        const isSelected =
+                          Array.isArray(formState.answers[criterion.id]) &&
+                          formState.answers[criterion.id].includes(option.label);
+
+                        return (
+                          <label
+                            className={`checkbox-option ${
+                              isSelected ? "option-selected" : ""
+                            }`}
+                            key={option.label}>
+                            <input
+                              type="checkbox"
+                              name={criterion.id}
+                              value={option.label}
+                              onChange={(event) =>
+                                updateAnswer(
+                                  criterion,
+                                  option.label,
+                                  event.target.checked
+                                )
+                              }
+                              checked={isSelected}
+                            />
+                            <span>{option.label}</span>
+                          </label>
+                        );
+                      })}
                     </div>
                   ) : (
                     <div
                       className={`radio-group ${
                         isBinaryChoice(criterion) ? "radio-group-inline" : ""
                       }`}>
-                      {criterion.options.map((option) => (
-                        <label className="radio-option" key={option.label}>
-                          <input
-                            type="radio"
-                            name={criterion.id}
-                            value={option.label}
-                            checked={formState.answers[criterion.id] === option.label}
-                            onChange={(event) =>
-                              updateAnswer(criterion, event.target.value)
-                            }
-                          />
-                          <span>{option.label}</span>
-                        </label>
-                      ))}
+                      {criterion.options.map((option) => {
+                        const isSelected =
+                          formState.answers[criterion.id] === option.label;
+
+                        return (
+                          <label
+                            className={`radio-option ${
+                              isSelected ? "option-selected" : ""
+                            }`}
+                            key={option.label}>
+                            <input
+                              type="radio"
+                              name={criterion.id}
+                              value={option.label}
+                              checked={isSelected}
+                              onChange={(event) =>
+                                updateAnswer(criterion, event.target.value)
+                              }
+                            />
+                            <span>{option.label}</span>
+                          </label>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
               </React.Fragment>
             );
           })}
+
+          <div className="modal-score-summary">
+            <span className="modal-score-label">Current score</span>
+            <strong>{`${liveScore.totalScore} / ${liveScore.maxScore}`}</strong>
+            <span className="modal-score-percentage">{`${livePercentage}%`}</span>
+          </div>
 
           {errors && <div className="error">{errors}</div>}
 
