@@ -238,6 +238,21 @@
   margin-top: 8px;
 }
 
+.reference-image-wrap {
+  margin-bottom: 24px;
+  padding: 18px;
+  border: 1px solid #d9e4eb;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fbfdff 0%, #f4f8fb 100%);
+}
+
+.reference-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+
 .table-container {
   overflow: hidden;
 }

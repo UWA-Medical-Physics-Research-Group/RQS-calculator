@@ -280,6 +280,13 @@ function App() {
             )}
           </div>
         </div>
+        <div className="reference-image-wrap">
+          <img
+            className="reference-image"
+            src={`${process.env.PUBLIC_URL}/${activeVersion === "rqs1" ? "RQS1.png" : "RQS2.png"}`}
+            alt={`${versionConfig.shortLabel} reference diagram`}
+          />
+        </div>
         <table className="data-table">
           <colgroup>
             <col className="criteria-number-column" />
@@ -381,6 +388,21 @@ function App() {
             <em>Nature Reviews Clinical Oncology.</em> 2017. <br />
             <a href="https://doi.org/10.1038/nrclinonc.2017.141">
               https://doi.org/10.1038/nrclinonc.2017.141
+            </a>
+          </p>
+          <br />
+          <p>
+            RQS 2.0 paper:
+            <br />
+            <strong>Lambin P, Leijenaar RTH, Deist TM, et al.</strong>{" "}
+            <em>
+              Radiomics Quality Score 2.0: towards radiomics readiness levels
+              and clinical translation for personalized medicine.
+            </em>
+            <br />
+            <em>Nature Reviews Clinical Oncology.</em> 2025. <br />
+            <a href="https://doi.org/10.1038/s41571-025-01067-1">
+              https://doi.org/10.1038/s41571-025-01067-1
             </a>
           </p>
         </div>

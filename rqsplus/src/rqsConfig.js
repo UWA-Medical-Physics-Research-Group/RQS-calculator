@@ -935,8 +935,8 @@ export const RQS_VERSIONS = {
     description:
       "Evaluate papers against RQS 2.0, including Radiomics Readiness Levels, then compare studies within the same framework.",
     sourceLabel:
-      "Radiomics Quality Score (RQS) 2.0 with Radiomics Readiness Levels",
-    sourceUrl: "https://www.radiomics.world/rqs2",
+      "Radiomics Quality Score 2.0: towards radiomics readiness levels and clinical translation for personalized medicine",
+    sourceUrl: "https://doi.org/10.1038/s41571-025-01067-1",
     criteria: rqs2Criteria,
     methodOptions: [
       "Handcrafted Radiomics",
