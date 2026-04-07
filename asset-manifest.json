@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/RQS-calculator/static/css/main.c16071b7.css",
-    "main.js": "/RQS-calculator/static/js/main.8fc65768.js",
+    "main.css": "/RQS-calculator/static/css/main.57f7b04a.css",
+    "main.js": "/RQS-calculator/static/js/main.f076abb0.js",
     "static/js/453.eee831ef.chunk.js": "/RQS-calculator/static/js/453.eee831ef.chunk.js",
     "index.html": "/RQS-calculator/index.html",
-    "main.c16071b7.css.map": "/RQS-calculator/static/css/main.c16071b7.css.map",
-    "main.8fc65768.js.map": "/RQS-calculator/static/js/main.8fc65768.js.map",
+    "main.57f7b04a.css.map": "/RQS-calculator/static/css/main.57f7b04a.css.map",
+    "main.f076abb0.js.map": "/RQS-calculator/static/js/main.f076abb0.js.map",
     "453.eee831ef.chunk.js.map": "/RQS-calculator/static/js/453.eee831ef.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c16071b7.css",
-    "static/js/main.8fc65768.js"
+    "static/css/main.57f7b04a.css",
+    "static/js/main.f076abb0.js"
   ]
 }
