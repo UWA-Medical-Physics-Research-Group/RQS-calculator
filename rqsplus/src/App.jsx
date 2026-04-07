@@ -146,9 +146,10 @@ function App() {
     const csvContent = [headers.join(","), ...csvRows].join("\r\n");
     const csvBlob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const now = new Date();
-    const defaultFileName = `${versionConfig.shortLabel
-      .replace(/\s+/g, "-")
-      .toLowerCase()}-${now
+    const exportPrefix =
+      activeVersion === "rqs2" ? "RQS2" : "RQS1";
+
+    const defaultFileName = `${exportPrefix}-${now
       .toLocaleString("default", {
         year: "numeric",
         month: "2-digit",
