@@ -1,449 +1,244 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import {
+  RQS_VERSIONS,
+  calculateRowScores,
+  createInitialRow,
+  getVisibleCriteria,
+} from "../rqsConfig";
 import "./Modal.css";
 
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
-  const [formState, setFormState] = useState(
-    defaultValue || {
-      name: "",
-      year: "",
-      imageProtocolQuality: ["None (0)"],
-      multipleSegmentations: "No (0)",
-      phantomStudy: "No (0)",
-      multipleTimePoints: "No (0)",
-      featureReduction: "No, neither method implemented (-3)",
-      multivariable: "No (0)",
-      biological: "No (0)",
-      cutOff: "No (0)",
-      discrimination: ["None (0)"],
-      calibration: ["None (0)"],
-      prospective: "No (0)",
-      validation: "No validation (-5)",
-      gold: "No (0)",
-      clinicalUtility: "No (0)",
-      cost: "No (0)",
-      open: ["None (0)"],
-    }
-  );
+export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
+  const [formState, setFormState] = useState(defaultValue || createInitialRow(version));
   const [errors, setErrors] = useState("");
 
-  const validateForm = () => {
-    if (
-      formState.name &&
-      formState.year &&
-      ((formState.imageProtocolQuality.includes("None (0)") &&
-        formState.imageProtocolQuality.length === 1) ||
-        (formState.imageProtocolQuality.length > 0 &&
-          !formState.imageProtocolQuality.includes("None (0)"))) &&
-      ["Yes (+1)", "No (0)"].includes(formState.multipleSegmentations) &&
-      ["Yes (+1)", "No (0)"].includes(formState.phantomStudy) &&
-      ["Yes (+1)", "No (0)"].includes(formState.multipleTimePoints) &&
-      [
-        "Yes, either method implemented (+3)",
-        "No, neither method implemented (-3)",
-      ].includes(formState.featureReduction) &&
-      ["Yes (+1)", "No (0)"].includes(formState.multivariable) &&
-      ["Yes (+1)", "No (0)"].includes(formState.biological) &&
-      ["Yes (+1)", "No (0)"].includes(formState.cutOff) &&
-      ((formState.discrimination.includes("None (0)") &&
-        formState.discrimination.length === 1) ||
-        (formState.discrimination.length > 0 &&
-          !formState.discrimination.includes("None (0)"))) &&
-      ((formState.calibration.includes("None (0)") &&
-        formState.calibration.length === 1) ||
-        (formState.calibration.length > 0 &&
-          !formState.calibration.includes("None (0)"))) &&
-      ["Yes (+7)", "No (0)"].includes(formState.prospective) &&
-      [
-        "No validation (-5)",
-        "Validation is based on a dataset from the same institute (+2)",
-        "Validation is based on a dataset from another institute (+3)",
-        "Validation is based on two datasets from two distinct institutes (+4)",
-        "The study validates a previously published signature (+4)",
-        "Validation is based on three or more datasets from distinct institutes (+5)",
-      ].includes(formState.validation) &&
-      ["Yes (+2)", "No (0)"].includes(formState.gold) &&
-      ["Yes (+2)", "No (0)"].includes(formState.clinicalUtility) &&
-      ["Yes (+1)", "No (0)"].includes(formState.cost) &&
-      formState.open.length > 0
-    ) {
-      setErrors("");
-      return true;
-    } else {
-      let errorFields = [];
+  const config = RQS_VERSIONS[formState.version];
 
-      if (!formState.name) {
-        errorFields.push("first author");
-      }
+  const visibleCriteria = useMemo(
+    () => getVisibleCriteria(formState.version, formState.maxRrl),
+    [formState.version, formState.maxRrl]
+  );
 
-      if (!formState.year) {
-        errorFields.push("year");
-      }
+  const updateField = (field, value) => {
+    setFormState((current) => ({ ...current, [field]: value }));
+  };
 
-      if (formState.imageProtocolQuality.length === 0) {
-        errorFields.push("image protocol quality");
-      }
-
-      if (!formState.multipleSegmentations) {
-        errorFields.push("multiple segmentations");
-      }
-
-      if (!formState.phantomStudy) {
-        errorFields.push("phantom study");
-      }
-
-      if (!formState.multipleTimePoints) {
-        errorFields.push("imaging at multiple time points");
-      }
-
-      if (!formState.featureReduction) {
-        errorFields.push(
-          "feature reduction or adjustment for multiple testing"
+  const updateAnswer = (criterion, value, checked = false) => {
+    setFormState((current) => {
+      if (criterion.inputType === "multi") {
+        const currentValue = Array.isArray(current.answers[criterion.id])
+          ? current.answers[criterion.id]
+          : [];
+        const selectedOption = criterion.options.find(
+          (option) => option.label === value
         );
+
+        let updatedValue;
+
+        if (selectedOption?.exclusive) {
+          updatedValue = checked ? [value] : [];
+        } else if (checked) {
+          updatedValue = currentValue.filter((item) => {
+            const option = criterion.options.find((candidate) => candidate.label === item);
+            return !option?.exclusive;
+          });
+          updatedValue.push(value);
+        } else {
+          updatedValue = currentValue.filter((item) => item !== value);
+        }
+
+        return {
+          ...current,
+          answers: {
+            ...current.answers,
+            [criterion.id]: updatedValue,
+          },
+        };
       }
 
-      if (!formState.multivariable) {
-        errorFields.push("multivariable analysis");
-      }
+      return {
+        ...current,
+        answers: {
+          ...current.answers,
+          [criterion.id]: value,
+        },
+      };
+    });
+  };
 
-      if (!formState.biological) {
-        errorFields.push("biological correlates");
-      }
+  const validateForm = () => {
+    const missingFields = [];
 
-      if (!formState.cutOff) {
-        errorFields.push("cut-off analysis");
-      }
+    if (!formState.name.trim()) {
+      missingFields.push("first author");
+    }
 
-      if (formState.discrimination.length === 0) {
-        errorFields.push("discrimination statistics");
-      }
+    if (!formState.year.trim()) {
+      missingFields.push("year");
+    }
 
-      if (formState.calibration.length === 0) {
-        errorFields.push("calibration statistics");
-      }
+    if (formState.version === "rqs2" && !formState.method) {
+      missingFields.push("method");
+    }
 
-      if (!formState.prospective) {
-        errorFields.push("prospective study");
-      }
+    if (formState.version === "rqs2" && !formState.maxRrl) {
+      missingFields.push("maximum RRL");
+    }
 
-      if (!formState.validation) {
-        errorFields.push("validation");
-      }
+    visibleCriteria.forEach((criterion) => {
+      const answer = formState.answers[criterion.id];
 
-      if (!formState.gold) {
-        errorFields.push("comparison to 'gold standard'");
+      if (criterion.inputType === "multi") {
+        if (!Array.isArray(answer) || answer.length === 0) {
+          missingFields.push(criterion.label.toLowerCase());
+        }
+      } else if (!answer) {
+        missingFields.push(criterion.label.toLowerCase());
       }
+    });
 
-      if (!formState.clinicalUtility) {
-        errorFields.push("potential clinical applications");
-      }
-
-      if (!formState.cost) {
-        errorFields.push("cost-effectiveness analysis");
-      }
-
-      if (formState.open.length === 0) {
-        errorFields.push("open science and data");
-      }
-
-      const errorMessage = `Please include: ${errorFields.join(", ")}`;
-      setErrors(errorMessage);
+    if (missingFields.length > 0) {
+      setErrors(`Please include: ${missingFields.join(", ")}`);
       return false;
     }
+
+    setErrors("");
+    return true;
   };
 
-  const handleChange = (e) => {
-    const { name, value, checked, type } = e.target;
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    if (type === "checkbox") {
-      let updatedArray;
-
-      if (value === "None (0)") {
-        if (checked) {
-          updatedArray = [value];
-        } else {
-          updatedArray = formState[name].filter((item) => item !== "None (0)");
-        }
-      } else {
-        if (checked) {
-          updatedArray = formState[name].filter((item) => item !== "None (0)");
-          updatedArray.push(value);
-        } else {
-          updatedArray = formState[name].filter((item) => item !== value);
-        }
-      }
-
-      setFormState({
-        ...formState,
-        [name]: updatedArray,
-      });
-    } else {
-      setFormState({ ...formState, [name]: value });
+    if (!validateForm()) {
+      return;
     }
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
-    onSubmit(formState);
-
+    onSubmit(calculateRowScores(formState));
     closeModal();
   };
-
-  const protocols = [
-    "Protocols well documented (+1)",
-    "Public protocol used  (+1)",
-    "None (0)",
-  ];
-  const discriminations = [
-    "A discrimination statistic and its statistical significance are reported (+1)",
-    "A resampling method technique is also applied  (+1)",
-    "None (0)",
-  ];
-  const calibrations = [
-    "A calibration statistic and its statistical significance are reported (+1)",
-    "A resampling method technique is applied (+1)",
-    "None (0)",
-  ];
-  const openSources = [
-    "Scans are open source (+1)",
-    "Region of interest segmentations are open source (+1)",
-    "Code is open source (+1)",
-    "Radiomics features are calculated on a set of representative ROIs and the calculated features and representative ROIs are open source (+1)",
-    "None (0)",
-  ];
 
   return (
     <div
       className="modal-container"
-      onClick={(e) => {
-        if (e.target.className === "modal-container") closeModal();
+      onClick={(event) => {
+        if (event.target.className === "modal-container") {
+          closeModal();
+        }
       }}>
       <div className="modal">
         <form className="modal-form" onSubmit={handleSubmit}>
-          <div className="modal-form-group">
-            <label htmlFor="name">First author</label>
-            <input name="name" onChange={handleChange} value={formState.name} />
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="year">Year</label>
-            <input name="year" onChange={handleChange} value={formState.year} />
-          </div>
-          <div className="modal-form-group">
-            <label>Image protocol quality</label>
-            <div className="checkbox-group">
-              {protocols.map((protocol) => (
-                <label className="checkbox-option" key={protocol}>
-                  <input
-                    type="checkbox"
-                    name="imageProtocolQuality"
-                    value={protocol}
-                    onChange={handleChange}
-                    checked={formState.imageProtocolQuality.includes(protocol)}
-                  />
-                  <span>{protocol}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="multipleSegmentations">
-              Multiple segmentations
-            </label>
-            <select
-              name="multipleSegmentations"
-              onChange={handleChange}
-              value={formState.multipleSegmentations}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="phantomStudy">Phantom study</label>
-            <select
-              name="phantomStudy"
-              onChange={handleChange}
-              value={formState.phantomStudy}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="multipleTimePoints">
-              Imaging at multiple time points
-            </label>
-            <select
-              name="multipleTimePoints"
-              onChange={handleChange}
-              value={formState.multipleTimePoints}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="featureReduction">
-              Feature reduction or adjustment for multiple testing
-            </label>
-            <select
-              name="featureReduction"
-              onChange={handleChange}
-              value={formState.featureReduction}>
-              <option value="No, neither method implemented (-3)">
-                No, neither method implemented (-3)
-              </option>
-              <option value="Yes, either method implemented (+3)">
-                Yes, either method implemented (+3)
-              </option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="multivariable">Multivariable analysis</label>
-            <select
-              name="multivariable"
-              onChange={handleChange}
-              value={formState.multivariable}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="biological">Biological correlates</label>
-            <select
-              name="biological"
-              onChange={handleChange}
-              value={formState.biological}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="cutOff">Cut-off analysis</label>
-            <select
-              name="cutOff"
-              onChange={handleChange}
-              value={formState.cutOff}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label>Discrimination statistics</label>
-            <div className="checkbox-group">
-              {discriminations.map((disc) => (
-                <label className="checkbox-option" key={disc}>
-                  <input
-                    type="checkbox"
-                    name="discrimination"
-                    value={disc}
-                    onChange={handleChange}
-                    checked={formState.discrimination.includes(disc)}
-                  />
-                  <span>{disc}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-          <div className="modal-form-group">
-            <label>Calibration statistics</label>
-            <div className="checkbox-group">
-              {calibrations.map((cal) => (
-                <label className="checkbox-option" key={cal}>
-                  <input
-                    type="checkbox"
-                    name="calibration"
-                    value={cal}
-                    onChange={handleChange}
-                    checked={formState.calibration.includes(cal)}
-                  />
-                  <span>{cal}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="prospective">Prospective study</label>
-            <select
-              name="prospective"
-              onChange={handleChange}
-              value={formState.prospective}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+7)">Yes (+7)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="validation">Validation</label>
-            <select
-              name="validation"
-              onChange={handleChange}
-              value={formState.validation}>
-              <option value="No validation (-5)">No validation (-5)</option>
-              <option value="Validation is based on a dataset from the same institute (+2)">
-                Validation is based on a dataset from the same institute (+2)
-              </option>
-              <option value="Validation is based on a dataset from another institute (+3)">
-                Validation is based on a dataset from another institute (+3)
-              </option>
-              <option value="Validation is based on two datasets from two distinct institutes (+4)">
-                Validation is based on two datasets from two distinct institutes
-                (+4)
-              </option>
-              <option value="The study validates a previously published signature (+4)">
-                The study validates a previously published signature (+4)
-              </option>
-              <option value="Validation is based on three or more datasets from distinct institutes (+5)">
-                Validation is based on three or more datasets from distinct
-                institutes (+5)
-              </option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="gold">Comparison to 'gold standard'</label>
-            <select name="gold" onChange={handleChange} value={formState.gold}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+2)">Yes (+2)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="clinicalUtility">
-              Potential clinical applications
-            </label>
-            <select
-              name="clinicalUtility"
-              onChange={handleChange}
-              value={formState.clinicalUtility}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+2)">Yes (+2)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label htmlFor="cost">Cost-effectiveness analysis</label>
-            <select name="cost" onChange={handleChange} value={formState.cost}>
-              <option value="No (0)">No (0)</option>
-              <option value="Yes (+1)">Yes (+1)</option>
-            </select>
-          </div>
-          <div className="modal-form-group">
-            <label>Open science and data</label>
-            <div className="checkbox-group">
-              {openSources.map((openSource) => (
-                <label className="checkbox-option checkbox-option-wide" key={openSource}>
-                  <input
-                    type="checkbox"
-                    name="open"
-                    value={openSource}
-                    onChange={handleChange}
-                    checked={formState.open.includes(openSource)}
-                  />
-                  <span>{openSource}</span>
-                </label>
-              ))}
-            </div>
+          <div className="modal-title-block">
+            <p className="modal-eyebrow">{config.shortLabel}</p>
+            <h2>{defaultValue ? "Edit paper" : "Add paper"}</h2>
+            {formState.version === "rqs2" && (
+              <p className="modal-helper">
+                Select the method and the highest RRL to include. The form then
+                shows all RQS 2.0 questions up to that stage.
+              </p>
+            )}
           </div>
 
+          <div className="modal-form-group">
+            <label htmlFor="name">First author</label>
+            <input
+              name="name"
+              onChange={(event) => updateField("name", event.target.value)}
+              value={formState.name}
+            />
+          </div>
+
+          <div className="modal-form-group">
+            <label htmlFor="year">Year</label>
+            <input
+              name="year"
+              onChange={(event) => updateField("year", event.target.value)}
+              value={formState.year}
+            />
+          </div>
+
+          {formState.version === "rqs2" && (
+            <div className="modal-meta-grid">
+              <div className="modal-form-group">
+                <label htmlFor="method">Method</label>
+                <select
+                  name="method"
+                  onChange={(event) => updateField("method", event.target.value)}
+                  value={formState.method}>
+                  {config.methodOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="modal-form-group">
+                <label htmlFor="maxRrl">Maximum RRL level</label>
+                <select
+                  name="maxRrl"
+                  onChange={(event) =>
+                    updateField("maxRrl", Number(event.target.value))
+                  }
+                  value={formState.maxRrl}>
+                  {config.rrlOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+
+          {visibleCriteria.map((criterion) => (
+            <div className="modal-form-group" key={criterion.id}>
+              <label>{criterion.number}. {criterion.label}</label>
+              {criterion.description && (
+                <p className="question-description">{criterion.description}</p>
+              )}
+
+              {criterion.inputType === "multi" ? (
+                <div className="checkbox-group">
+                  {criterion.options.map((option) => (
+                    <label className="checkbox-option" key={option.label}>
+                      <input
+                        type="checkbox"
+                        name={criterion.id}
+                        value={option.label}
+                        onChange={(event) =>
+                          updateAnswer(
+                            criterion,
+                            option.label,
+                            event.target.checked
+                          )
+                        }
+                        checked={
+                          Array.isArray(formState.answers[criterion.id]) &&
+                          formState.answers[criterion.id].includes(option.label)
+                        }
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <select
+                  name={criterion.id}
+                  onChange={(event) => updateAnswer(criterion, event.target.value)}
+                  value={formState.answers[criterion.id]}>
+                  {criterion.options.map((option) => (
+                    <option key={option.label} value={option.label}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          ))}
+
           {errors && <div className="error">{errors}</div>}
-          <button type="submit" className="btn">
-            Submit
+
+          <button type="submit" className="btn btn-primary">
+            Save paper
           </button>
         </form>
       </div>

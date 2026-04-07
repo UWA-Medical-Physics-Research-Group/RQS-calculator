@@ -35,6 +35,30 @@
   gap: 18px;
 }
 
+.modal-title-block h2 {
+  color: #17324d;
+  margin-bottom: 6px;
+}
+
+.modal-eyebrow {
+  margin-bottom: 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #287a67;
+}
+
+.modal-helper,
+.question-description {
+  color: #607687;
+  line-height: 1.55;
+}
+
+.modal-helper {
+  margin-top: 6px;
+}
+
 .error {
   color: #b42318;
   background: #fef3f2;
@@ -59,6 +83,12 @@ input[type="checkbox"] {
 .modal-form-group > label {
   font-weight: 700;
   color: #17324d;
+}
+
+.modal-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .modal-form input,
@@ -115,6 +145,10 @@ input[type="checkbox"] {
   .modal {
     padding: 1.2rem;
     border-radius: 18px;
+  }
+
+  .modal-meta-grid {
+    grid-template-columns: 1fr;
   }
 
   .checkbox-option {

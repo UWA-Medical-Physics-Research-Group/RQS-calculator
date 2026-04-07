@@ -1,21 +1,28 @@
 import React from "react";
-
-import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-
+import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { formatAnswer, getVisibleCriteria } from "../rqsConfig";
 import "./Table.css";
 
-export const Table = ({ rows, deleteRow, editRow }) => {
+export const Table = ({ rows, versionConfig, deleteRow, editRow }) => {
   if (rows.length === 0) {
     return (
       <div className="empty-state">
         <h3>No papers added yet</h3>
         <p>
-          Use <strong>Add Paper</strong> to start scoring a study. Your entries
-          are saved in this browser until you clear them.
+          Use <strong>Add Paper</strong> to score a paper with{" "}
+          <strong>{versionConfig.shortLabel}</strong>. Entries are saved in this
+          browser until you clear them.
         </p>
       </div>
     );
   }
+
+  const highestRrl =
+    versionConfig.key === "rqs2"
+      ? Math.max(...rows.map((row) => Number(row.maxRrl || 1)))
+      : null;
+
+  const visibleCriteria = getVisibleCriteria(versionConfig.key, highestRrl);
 
   return (
     <div className="table-wrapper">
@@ -24,92 +31,59 @@ export const Table = ({ rows, deleteRow, editRow }) => {
           <tr>
             <th>First author</th>
             <th>Year</th>
-            <th className="expand">Image protocol quality</th>
-            <th>Multiple segmentations</th>
-            <th>Phantom study</th>
-            <th>Imaging at multiple time points</th>
-            <th>Feature reduction or adjustment for multiple testing</th>
-            <th>Multivariable analysis</th>
-            <th>Biological correlates</th>
-            <th>Cut-off analysis</th>
-            <th>Discrimination statistics</th>
-            <th>Calibration statistics</th>
-            <th>Prospective study</th>
-            <th>Validation</th>
-            <th>Comparison to 'gold standard'</th>
-            <th>Potential clinical applications</th>
-            <th>Cost-effectiveness analysis</th>
-            <th>Open science and data</th>
+            {versionConfig.key === "rqs2" && <th>Method</th>}
+            {versionConfig.key === "rqs2" && <th>Max RRL</th>}
+            {visibleCriteria.map((criterion) => (
+              <th className="expand" key={criterion.id}>
+                {criterion.label}
+              </th>
+            ))}
             <th>Total score</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => {
-            let totalScorePercentage = ((row.totalScore / 36) * 100).toFixed(2);
-            // Calculate totalScore as a percentage out of 36
-            if (totalScorePercentage < 0) {
-              totalScorePercentage = 0;
-            }
+          {rows.map((row) => {
+            const percentage =
+              row.maxScore > 0
+                ? Math.max(0, ((row.totalScore / row.maxScore) * 100).toFixed(2))
+                : "0.00";
 
             return (
-              <tr key={idx}>
+              <tr key={row.sourceIndex}>
                 <td>{row.name}</td>
                 <td>{row.year}</td>
-                <td className="expand wrap-cell">
-                  {row.imageProtocolQuality.map((protocol, index) => (
-                    <React.Fragment key={index}>
-                      {protocol}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                </td>
-                <td>{row.multipleSegmentations}</td>
-                <td>{row.phantomStudy}</td>
-                <td>{row.multipleTimePoints}</td>
-                <td>{row.featureReduction}</td>
-                <td>{row.multivariable}</td>
-                <td>{row.biological}</td>
-                <td>{row.cutOff}</td>
-                <td className="expand wrap-cell">
-                  {row.discrimination.map((disc, index) => (
-                    <React.Fragment key={index}>
-                      {disc}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                </td>
-                <td className="expand wrap-cell">
-                  {row.calibration.map((cal, index) => (
-                    <React.Fragment key={index}>
-                      {cal}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                </td>
-                <td>{row.prospective}</td>
-                <td className="wrap-cell">{row.validation}</td>
-                <td>{row.gold}</td>
-                <td>{row.clinicalUtility}</td>
-                <td>{row.cost}</td>
-                {/* <td>{row.open}</td> */}
-                <td className="expand wrap-cell">
-                  {row.open.map((openSource, index) => (
-                    <React.Fragment key={index}>
-                      {openSource}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                </td>
+                {versionConfig.key === "rqs2" && <td>{row.method}</td>}
+                {versionConfig.key === "rqs2" && <td>{`RRL ${row.maxRrl}`}</td>}
+                {visibleCriteria.map((criterion) => {
+                  const isVisibleForRow =
+                    versionConfig.key !== "rqs2" ||
+                    criterion.stage <= Number(row.maxRrl);
+                  const answer = isVisibleForRow
+                    ? formatAnswer(criterion, row.answers?.[criterion.id])
+                    : "-";
 
-                <td>{`${row.totalScore} (${totalScorePercentage}%)`}</td>
+                  return (
+                    <td
+                      className={`expand wrap-cell ${!isVisibleForRow ? "muted-cell" : ""}`}
+                      key={`${row.sourceIndex}-${criterion.id}`}>
+                      {answer.split("\n").map((line, index) => (
+                        <React.Fragment key={`${criterion.id}-${index}`}>
+                          {line}
+                          {index < answer.split("\n").length - 1 && <br />}
+                        </React.Fragment>
+                      ))}
+                    </td>
+                  );
+                })}
+                <td>{`${row.totalScore} / ${row.maxScore} (${percentage}%)`}</td>
                 <td>
                   <span className="actions">
                     <BsFillTrashFill
                       className="delete-btn"
-                      onClick={() => deleteRow(idx)}
+                      onClick={() => deleteRow(row.sourceIndex)}
                     />
-                    <BsFillPencilFill onClick={() => editRow(idx)} />
+                    <BsFillPencilFill onClick={() => editRow(row.sourceIndex)} />
                   </span>
                 </td>
               </tr>

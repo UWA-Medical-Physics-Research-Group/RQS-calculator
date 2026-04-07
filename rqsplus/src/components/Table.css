@@ -107,6 +107,11 @@ td:first-child::after {
   overflow-wrap: anywhere;
 }
 
+.muted-cell {
+  color: #9aaab7;
+  background: #f8fbfd;
+}
+
 .empty-state {
   padding: 40px 24px;
   border: 1px dashed #bfd0de;
