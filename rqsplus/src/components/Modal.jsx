@@ -70,6 +70,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
     });
   };
 
+  const isBinaryChoice = (criterion) =>
+    criterion.inputType === "single" &&
+    criterion.options.length === 2 &&
+    criterion.options.every((option) => option.label.length <= 12);
+
   const validateForm = () => {
     const missingFields = [];
 
@@ -252,18 +257,25 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
                       ))}
                     </div>
                   ) : (
-                    <select
-                      name={criterion.id}
-                      onChange={(event) =>
-                        updateAnswer(criterion, event.target.value)
-                      }
-                      value={formState.answers[criterion.id]}>
+                    <div
+                      className={`radio-group ${
+                        isBinaryChoice(criterion) ? "radio-group-inline" : ""
+                      }`}>
                       {criterion.options.map((option) => (
-                        <option key={option.label} value={option.label}>
-                          {option.label}
-                        </option>
+                        <label className="radio-option" key={option.label}>
+                          <input
+                            type="radio"
+                            name={criterion.id}
+                            value={option.label}
+                            checked={formState.answers[criterion.id] === option.label}
+                            onChange={(event) =>
+                              updateAnswer(criterion, event.target.value)
+                            }
+                          />
+                          <span>{option.label}</span>
+                        </label>
                       ))}
-                    </select>
+                    </div>
                   )}
                 </div>
               </React.Fragment>
