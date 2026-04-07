@@ -15,9 +15,9 @@
 
 ### Edits to implement:
 
-- [ ] Edit "clear all" button to come up with a pop up saying "are you sure?"
-- [ ] improve styling
-- [ ] some of the columns are aligned weirdly. Need to fix that
+- [x] Edit "clear all" button to come up with a pop up saying "are you sure?"
+- [x] improve styling
+- [x] some of the columns are aligned wierdly. Need to fix that
 - [x] link to nathaniels paper
 - [ ] metrics (how many times this page has been used, where in the world)
 - [ ] issue with long paper names. Text doesnt wrap and instead makes the column width huge. Need to fix

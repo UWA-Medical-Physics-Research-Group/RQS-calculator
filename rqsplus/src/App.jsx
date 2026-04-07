@@ -332,7 +332,7 @@ function App() {
     <div className="App">
       <header className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Radiomics quality scoring</p>
+          <p className="eyebrow">Radiomics quality scoring (version 1)</p>
           <h1 className="title">RQS Calculator</h1>
           <p className="description">
             Score radiomics papers against the Radiomics Quality Score criteria,
@@ -725,6 +725,13 @@ function App() {
 
       {/* Footer Section */}
       <footer className="footer">
+        <div className="footer-logo-wrap">
+          <img
+            className="footer-brand-logo"
+            src={`${process.env.PUBLIC_URL}/med-phys-logo.avif`}
+            alt="UWA Medical Physics logo"
+          />
+        </div>
         <div className="footer-content">
           <p>
             Tool conceptualised by Nathaniel Barry and created by Kaylee Molin.
