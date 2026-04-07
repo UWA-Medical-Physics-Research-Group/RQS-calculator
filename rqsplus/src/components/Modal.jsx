@@ -3,7 +3,7 @@ import {
   RQS_VERSIONS,
   calculateRowScores,
   createInitialRow,
-  getVisibleCriteria,
+  getVisibleCriteriaForSelection,
 } from "../rqsConfig";
 import "./Modal.css";
 
@@ -14,8 +14,13 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
   const config = RQS_VERSIONS[formState.version];
 
   const visibleCriteria = useMemo(
-    () => getVisibleCriteria(formState.version, formState.maxRrl),
-    [formState.version, formState.maxRrl]
+    () =>
+      getVisibleCriteriaForSelection(
+        formState.version,
+        formState.maxRrl,
+        formState.method
+      ),
+    [formState.version, formState.maxRrl, formState.method]
   );
 
   const updateField = (field, value) => {
@@ -163,6 +168,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
                   name="method"
                   onChange={(event) => updateField("method", event.target.value)}
                   value={formState.method}>
+                  <option value="">Select a method</option>
                   {config.methodOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}
@@ -176,9 +182,13 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
                 <select
                   name="maxRrl"
                   onChange={(event) =>
-                    updateField("maxRrl", Number(event.target.value))
+                    updateField(
+                      "maxRrl",
+                      event.target.value ? Number(event.target.value) : null
+                    )
                   }
-                  value={formState.maxRrl}>
+                  value={formState.maxRrl ?? ""}>
+                  <option value="">Select a maximum RRL level</option>
                   {config.rrlOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -189,51 +199,76 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, version }) => {
             </div>
           )}
 
-          {visibleCriteria.map((criterion) => (
-            <div className="modal-form-group" key={criterion.id}>
-              <label>{criterion.number}. {criterion.label}</label>
-              {criterion.description && (
-                <p className="question-description">{criterion.description}</p>
-              )}
-
-              {criterion.inputType === "multi" ? (
-                <div className="checkbox-group">
-                  {criterion.options.map((option) => (
-                    <label className="checkbox-option" key={option.label}>
-                      <input
-                        type="checkbox"
-                        name={criterion.id}
-                        value={option.label}
-                        onChange={(event) =>
-                          updateAnswer(
-                            criterion,
-                            option.label,
-                            event.target.checked
-                          )
-                        }
-                        checked={
-                          Array.isArray(formState.answers[criterion.id]) &&
-                          formState.answers[criterion.id].includes(option.label)
-                        }
-                      />
-                      <span>{option.label}</span>
-                    </label>
-                  ))}
-                </div>
-              ) : (
-                <select
-                  name={criterion.id}
-                  onChange={(event) => updateAnswer(criterion, event.target.value)}
-                  value={formState.answers[criterion.id]}>
-                  {criterion.options.map((option) => (
-                    <option key={option.label} value={option.label}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              )}
+          {formState.version === "rqs2" && visibleCriteria.length === 0 && (
+            <div className="modal-placeholder">
+              Choose both a method and a maximum RRL level to display the
+              relevant RQS 2.0 questions.
             </div>
-          ))}
+          )}
+
+          {visibleCriteria.map((criterion, index) => {
+            const previousCriterion = visibleCriteria[index - 1];
+            const showStageHeading =
+              formState.version === "rqs2" &&
+              criterion.stageTitle &&
+              criterion.stageTitle !== previousCriterion?.stageTitle;
+
+            return (
+              <React.Fragment key={criterion.id}>
+                {showStageHeading && (
+                  <div className="modal-stage-heading">{criterion.stageTitle}</div>
+                )}
+
+                <div className="modal-form-group">
+                  <label>
+                    {criterion.number}. {criterion.label}
+                  </label>
+                  {criterion.description && (
+                    <p className="question-description">{criterion.description}</p>
+                  )}
+
+                  {criterion.inputType === "multi" ? (
+                    <div className="checkbox-group">
+                      {criterion.options.map((option) => (
+                        <label className="checkbox-option" key={option.label}>
+                          <input
+                            type="checkbox"
+                            name={criterion.id}
+                            value={option.label}
+                            onChange={(event) =>
+                              updateAnswer(
+                                criterion,
+                                option.label,
+                                event.target.checked
+                              )
+                            }
+                            checked={
+                              Array.isArray(formState.answers[criterion.id]) &&
+                              formState.answers[criterion.id].includes(option.label)
+                            }
+                          />
+                          <span>{option.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ) : (
+                    <select
+                      name={criterion.id}
+                      onChange={(event) =>
+                        updateAnswer(criterion, event.target.value)
+                      }
+                      value={formState.answers[criterion.id]}>
+                      {criterion.options.map((option) => (
+                        <option key={option.label} value={option.label}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+              </React.Fragment>
+            );
+          })}
 
           {errors && <div className="error">{errors}</div>}
 

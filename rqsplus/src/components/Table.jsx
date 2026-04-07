@@ -1,6 +1,10 @@
 import React from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import { formatAnswer, getVisibleCriteria } from "../rqsConfig";
+import {
+  formatAnswer,
+  getVisibleCriteria,
+  getVisibleCriteriaForSelection,
+} from "../rqsConfig";
 import "./Table.css";
 
 export const Table = ({ rows, versionConfig, deleteRow, editRow }) => {
@@ -56,9 +60,14 @@ export const Table = ({ rows, versionConfig, deleteRow, editRow }) => {
                 {versionConfig.key === "rqs2" && <td>{row.method}</td>}
                 {versionConfig.key === "rqs2" && <td>{`RRL ${row.maxRrl}`}</td>}
                 {visibleCriteria.map((criterion) => {
-                  const isVisibleForRow =
-                    versionConfig.key !== "rqs2" ||
-                    criterion.stage <= Number(row.maxRrl);
+                  const rowCriteria = getVisibleCriteriaForSelection(
+                    versionConfig.key,
+                    row.maxRrl,
+                    row.method
+                  );
+                  const isVisibleForRow = rowCriteria.some(
+                    (rowCriterion) => rowCriterion.id === criterion.id
+                  );
                   const answer = isVisibleForRow
                     ? formatAnswer(criterion, row.answers?.[criterion.id])
                     : "-";

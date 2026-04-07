@@ -5,6 +5,7 @@ import {
   RQS_VERSIONS,
   createInitialRow,
   getVisibleCriteria,
+  getVisibleCriteriaForSelection,
   migrateStoredRows,
 } from "./rqsConfig";
 import "./App.css";
@@ -119,8 +120,14 @@ function App() {
         row.year,
         ...(activeVersion === "rqs2" ? [row.method, `RRL ${row.maxRrl}`] : []),
         ...criteria.map((criterion) => {
-          const isVisibleForRow =
-            activeVersion !== "rqs2" || criterion.stage <= Number(row.maxRrl);
+          const rowCriteria = getVisibleCriteriaForSelection(
+            activeVersion,
+            row.maxRrl,
+            row.method
+          );
+          const isVisibleForRow = rowCriteria.some(
+            (rowCriterion) => rowCriterion.id === criterion.id
+          );
           if (!isVisibleForRow) {
             return "";
           }

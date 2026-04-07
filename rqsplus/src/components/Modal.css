@@ -59,6 +59,26 @@
   margin-top: 6px;
 }
 
+.modal-placeholder {
+  padding: 18px 20px;
+  border: 1px dashed #bfd0de;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f8fbfd 0%, #f1f7fb 100%);
+  color: #607687;
+  line-height: 1.6;
+}
+
+.modal-stage-heading {
+  margin-top: 8px;
+  padding: 6px 0 2px;
+  text-align: center;
+  color: #17324d;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid #dbe5ec;
+}
+
 .error {
   color: #b42318;
   background: #fef3f2;

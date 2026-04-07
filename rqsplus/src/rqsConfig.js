@@ -350,6 +350,7 @@ const rqs2Criteria = [
     number: 6,
     stage: 2,
     stageTitle: "RRL 2 - Data Preparation",
+    applicableMethods: ["Handcrafted Radiomics", "Both"],
     label: "Feature robustness",
     description:
       "Evaluate robustness using test-retest, multiple segmentations, or phantom studies.",
@@ -395,6 +396,7 @@ const rqs2Criteria = [
     number: 9,
     stage: 2,
     stageTitle: "RRL 2 - Data Preparation",
+    applicableMethods: ["Handcrafted Radiomics", "Both"],
     label: "Compliance with international standards",
     description:
       "Use standards-compliant implementations, for example IBSI-aligned feature extraction.",
@@ -425,6 +427,7 @@ const rqs2Criteria = [
     number: 11,
     stage: 3,
     stageTitle: "RRL 3 - Prototype Model Development",
+    applicableMethods: ["Handcrafted Radiomics", "Both"],
     label: "Feature reduction",
     description:
       "Reduce features to lower overfitting risk, especially when feature counts exceed sample counts.",
@@ -440,6 +443,7 @@ const rqs2Criteria = [
     number: 12,
     stage: 3,
     stageTitle: "RRL 3 - Prototype Model Development",
+    applicableMethods: ["Handcrafted Radiomics", "Both"],
     label: "Feature robustness for feature selection",
     description:
       "Use prior robustness evidence during feature selection.",
@@ -966,23 +970,44 @@ export const createInitialRow = (version = "rqs1") => {
     version,
     name: "",
     year: "",
-    method:
-      version === "rqs2" ? config.methodOptions[0] : "",
-    maxRrl: version === "rqs2" ? 9 : null,
+    method: version === "rqs2" ? "" : "",
+    maxRrl: version === "rqs2" ? null : null,
     answers,
     totalScore: 0,
-    maxScore: getMaxScore(version, version === "rqs2" ? 9 : null),
+    maxScore: getMaxScore(version, version === "rqs2" ? null : null),
   };
 };
 
 export const getVisibleCriteria = (version, maxRrl = null) => {
   const config = RQS_VERSIONS[version];
 
-  if (version !== "rqs2" || maxRrl == null) {
+  if (version !== "rqs2") {
     return config.criteria;
   }
 
+  if (maxRrl == null) {
+    return [];
+  }
+
   return config.criteria.filter((criterion) => criterion.stage <= Number(maxRrl));
+};
+
+export const getVisibleCriteriaForSelection = (
+  version,
+  maxRrl = null,
+  method = ""
+) => {
+  if (version === "rqs2" && (!maxRrl || !method)) {
+    return [];
+  }
+
+  return getVisibleCriteria(version, maxRrl).filter((criterion) => {
+    if (version !== "rqs2" || !criterion.applicableMethods) {
+      return true;
+    }
+
+    return criterion.applicableMethods.includes(method);
+  });
 };
 
 export const getMaxScore = (version, maxRrl = null) =>
