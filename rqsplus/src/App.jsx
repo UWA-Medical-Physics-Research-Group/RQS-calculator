@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { saveAs } from "file-saver";
 import { Modal } from "./components/Modal";
 import { Table } from "./components/Table";
 import "./App.css";
@@ -14,6 +13,14 @@ function App() {
   const [deletedRows, setDeletedRows] = useState([]);
   const [isCleared, setIsCleared] = useState(false);
   const [showClearButton, setShowClearButton] = useState(true);
+
+  const averageScore =
+    rows.length > 0
+      ? (rows.reduce((sum, row) => sum + (row.totalScore || 0), 0) / rows.length)
+          .toFixed(1)
+      : "0.0";
+  const bestScore =
+    rows.length > 0 ? Math.max(...rows.map((row) => row.totalScore || 0)) : 0;
 
   const handleDeleteRow = (targetIndex) => {
     const deletedRow = rows[targetIndex];
@@ -136,6 +143,14 @@ function App() {
   };
 
   const handleClearAll = () => {
+    const shouldClear = window.confirm(
+      "Are you sure you want to clear all saved papers?"
+    );
+
+    if (!shouldClear) {
+      return;
+    }
+
     localStorage.setItem("deletedRows", JSON.stringify(rows));
     setDeletedRows([...deletedRows, ...rows]);
     setRows([]);
@@ -315,33 +330,60 @@ function App() {
 
   return (
     <div className="App">
-      <header className="header">
-        <div className="title">RQS Calculator</div>
-        <div className="description">
-          A tool designed to calculate the radiomics quality score for radiomics
-          papers.
+      <header className="hero">
+        <div className="hero-copy">
+          <p className="eyebrow">Radiomics quality scoring</p>
+          <h1 className="title">RQS Calculator</h1>
+          <p className="description">
+            Score radiomics papers against the Radiomics Quality Score criteria,
+            compare studies side by side, and export your working dataset as a
+            CSV.
+          </p>
+          <div className="button-container">
+            <button className="btn btn-primary" onClick={handleAddRow}>
+              Add Paper
+            </button>
+            <button className="btn btn-secondary" onClick={handleExportCSV}>
+              Export as CSV
+            </button>
+            {showClearButton && (
+              <button className="btn btn-ghost" onClick={handleClearAll}>
+                Clear All
+              </button>
+            )}
+            {isCleared && deletedRows.length > 0 && (
+              <button className="btn btn-secondary" onClick={handleUndoClear}>
+                Undo Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="stats-grid">
+          <div className="stat-card">
+            <span className="stat-label">Saved papers</span>
+            <strong>{rows.length}</strong>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Average RQS</span>
+            <strong>{averageScore}</strong>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Best score</span>
+            <strong>{bestScore}</strong>
+          </div>
         </div>
       </header>
-      {/* Table Section */}
-      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <div className="button-container">
-        <button className="btn" onClick={handleAddRow}>
-          Add Paper
-        </button>
-        {showClearButton && (
-          <button className="btn" onClick={handleClearAll}>
-            {isCleared ? "Undo Clear" : "Clear All"}
-          </button>
-        )}
-        {isCleared && deletedRows.length > 0 && (
-          <button className="btn" onClick={handleUndoClear}>
-            Undo Clear
-          </button>
-        )}
-        <button className="btn" onClick={handleExportCSV}>
-          Export as CSV
-        </button>
-      </div>
+
+      <section className="panel main-panel">
+        <div className="panel-header">
+          <div>
+            <h2>Paper Comparison</h2>
+            <p>Scroll horizontally to compare scoring criteria across papers.</p>
+          </div>
+        </div>
+        <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
+      </section>
 
       {modalOpen && (
         <Modal
@@ -354,40 +396,49 @@ function App() {
         />
       )}
 
-      <div class="table-container">
-        <div className="description">
-          For more information about the criteria, please refer to the table
-          below. From:{" "}
-          <a href="https://doi.org/10.1038/nrclinonc.2017.141">
-            {" "}
-            Radiomics: the bridge between medical imaging and personalized
-            medicine
-          </a>
+      <section className="panel table-container">
+        <div className="panel-header panel-header-spaced">
+          <div>
+            <h2>Criteria Reference</h2>
+            <p>
+              Based on{" "}
+              <a href="https://doi.org/10.1038/nrclinonc.2017.141">
+                Radiomics: the bridge between medical imaging and personalized
+                medicine
+              </a>
+              .
+            </p>
+          </div>
         </div>
-        <table class="data-table">
-          <thead class="table-header">
+        <table className="data-table">
+          <colgroup>
+            <col className="criteria-number-column" />
+            <col className="criteria-text-column" />
+            <col className="criteria-points-column" />
+          </colgroup>
+          <thead className="table-header">
             <tr>
-              <th class="text-center " colspan="2">
+              <th className="text-center" colSpan="2">
                 <p>Criteria</p>
               </th>
-              <th class="text-center">
+              <th className="text-center">
                 <p>Points</p>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>1</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Image protocol quality - well-documented image protocols (for
                   example, contrast, slice thickness, energy, etc.) and/or usage
                   of public image protocols allow reproducibility/replicability
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   + 1 (if protocols are well-documented) + 1 (if public protocol
                   is used)
@@ -395,10 +446,10 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>2</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Multiple segmentations - possible actions are: segmentation by
                   different physicians/algorithms/software, perturbing
@@ -407,30 +458,30 @@ function App() {
                   variabilities
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>3</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Phantom study on all scanners - detect inter-scanner
                   differences and vendor-dependent features. Analyse feature
                   robustness to these sources of variability
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>4</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Imaging at multiple time points - collect images of
                   individuals at additional time points. Analyse feature
@@ -438,15 +489,15 @@ function App() {
                   movement, organ expansion/shrinkage)
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>5</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Feature reduction or adjustment for multiple testing -
                   decreases the risk of overfitting. Overfitting is inevitable
@@ -454,7 +505,7 @@ function App() {
                   Consider feature robustness when selecting features
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   - 3 (if neither measure is implemented) + 3 (if either measure
                   is implemented)
@@ -462,10 +513,10 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>6</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Multivariable analysis with non radiomics features (for
                   example, EGFR mutation) - is expected to provide a more
@@ -473,15 +524,15 @@ function App() {
                   radiomics and non radiomics features
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>7</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Detect and discuss biological correlates - demonstration of
                   phenotypic differences (possibly associated with underlying
@@ -489,15 +540,15 @@ function App() {
                   radiomics and biology
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>8</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Cut-off analyses - determine risk groups by either the median,
                   a previously published cut-off or report a continuous risk
@@ -505,15 +556,15 @@ function App() {
                   results
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>9</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Discrimination statistics - report discrimination statistics
                   (for example, C-statistic, ROC curve, AUC) and their
@@ -522,7 +573,7 @@ function App() {
                   bootstrapping, cross-validation)
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   + 1 (if a discrimination statistic and its statistical
                   significance are reported) + 1 (if a resampling method
@@ -531,10 +582,10 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>10</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Calibration statistics - report calibration statistics (for
                   example, Calibration-in-the-large/slope, calibration plots)
@@ -543,7 +594,7 @@ function App() {
                   method (for example, bootstrapping, cross-validation)
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   + 1 (if a calibration statistic and its statistical
                   significance are reported) + 1 (if a resampling method
@@ -552,17 +603,17 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>11</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Prospective study registered in a trial database - provides
                   the highest level of evidence supporting the clinical validity
                   and usefulness of the radiomics biomarker
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   + 7 (for prospective validation of a radiomics signature in an
                   appropriate trial)
@@ -570,17 +621,17 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>12</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Validation - the validation is performed without retraining
                   and without adaptation of the cut-off value, provides crucial
                   information with regard to credible clinical performance
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   - 5 (if validation is missing) + 2 (if validation is based on
                   a dataset from the same institute) + 3 (if validation is based
@@ -597,10 +648,10 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>13</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Comparison to 'gold standard' - assess the extent to which the
                   model agrees with/is superior to the current 'gold standard'
@@ -608,51 +659,51 @@ function App() {
                   This comparison shows the added value of radiomics
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 2</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>14</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Potential clinical utility - report on the current and
                   potential application of the model in a clinical setting (for
                   example, decision curve analysis).
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 2</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>15</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Cost-effectiveness analysis - report on the cost-effectiveness
                   of the clinical application (for example, QALYs generated)
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>+ 1</p>
               </td>
             </tr>
             <tr>
-              <td class="text-left">
+              <td className="text-left">
                 <p>16</p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   Open science and data - make code and data publicly available.
                   Open science facilitates knowledge transfer and
                   reproducibility of the study
                 </p>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <p>
                   + 1 (if scans are open source) + 1 (if region of interest
                   segmentations are open source) + 1 (if code is open source) +
@@ -663,14 +714,14 @@ function App() {
               </td>
             </tr>
             <tr>
-              <td class="text-left">&nbsp;</td>
-              <td class="text-center " colspan="2">
+              <td className="text-left">&nbsp;</td>
+              <td className="text-center " colSpan="2">
                 <p>Total points (36 = 100%)</p>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
 
       {/* Footer Section */}
       <footer className="footer">
@@ -718,13 +769,13 @@ function App() {
             For inquiries or further information, please contact us at:
             <br />
             <strong>Nathaniel Barry:</strong>{" "}
-            <a href="mailto:nathaniel.barry@research.uwa.edu.au">
-              nathaniel.barry@research.uwa.edu.au
+            <a href="mailto:nathaniel.barry@health.wa.gov.au">
+              nathaniel.barry@health.wa.gov.au
             </a>
             <br />
             <strong>Kaylee Molin:</strong>{" "}
-            <a href="mailto:22734429@student.uwa.edu.au">
-              22734429@student.uwa.edu.au
+            <a href="mailto:kaylee.molin@research.uwa.edu.au">
+              kaylee.molin@research.uwa.edu.au
             </a>
             {" | "}
             <a href="https://www.linkedin.com/in/kaylee-molin/">LinkedIn</a>

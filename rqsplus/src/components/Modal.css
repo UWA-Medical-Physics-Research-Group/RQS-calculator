@@ -1,52 +1,123 @@
 .modal-container {
   position: fixed;
-  z-index: 2;
+  z-index: 10;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  background-color: rgba(12, 25, 38, 0.48);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .modal {
-  border-radius: 5px;
-  padding: 3rem; /* Increased padding on all sides */
+  border-radius: 24px;
+  padding: 2rem;
   background-color: white;
-  width: 40em;
-  max-height: 80%; /* Set maximum height */
-  overflow-y: auto; /* Add scrollbar if content exceeds the height */
+  width: min(52rem, 100%);
+  max-height: min(88vh, 920px);
+  overflow-y: auto;
   position: relative;
-  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5),
-    /* Static shadow at the top */ inset 0 10px 10px -10px rgba(0, 0, 0, 0.5); /* Static shadow at the bottom */
+  box-shadow: 0 24px 60px rgba(12, 25, 38, 0.24);
 }
 
 .modal .btn {
-  display: block;
-  margin: auto;
+  display: inline-flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.modal-form {
+  display: grid;
+  gap: 18px;
 }
 
 .error {
-  color: red;
+  color: #b42318;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  border-radius: 14px;
+  padding: 12px 14px;
   margin-top: 10px;
 }
 
 input[type="checkbox"] {
-  margin-right: 10px; /* Adds space to the right of the checkbox */
-  margin-bottom: 5px; /* Adds vertical space between checkboxes */
-  vertical-align: middle; /* Aligns the checkbox vertically with the text */
+  margin: 0;
+  vertical-align: middle;
 }
 
-.form-group {
-  display: grid; /* Use grid layout */
-  grid-template-columns: min-content auto; /* First column for checkbox, second for label */
-  align-items: left; /* Center items vertically */
-  gap: 10px; /* Gap between checkbox and label */
+.modal-form-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 10px;
 }
 
-.form-group > label {
-  font-weight: bold; /* Makes the label text bold */
-  white-space: nowrap; /* Prevents text from wrapping to the next line */
+.modal-form-group > label {
+  font-weight: 700;
+  color: #17324d;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  border: 1px solid #ccd7e0;
+  border-radius: 14px;
+  padding: 0.8rem 0.95rem;
+  background: #fbfdff;
+  color: #17324d;
+}
+
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+  outline: 2px solid rgba(43, 133, 211, 0.18);
+  border-color: #2b85d3;
+}
+
+.checkbox-group {
+  display: grid;
+  gap: 10px;
+}
+
+.checkbox-option {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  border: 1px solid #dbe5ec;
+  border-radius: 14px;
+  background: #f8fbfd;
+  color: #425a6c;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.checkbox-option input {
+  margin-top: 0.25rem;
+}
+
+.checkbox-option:hover {
+  border-color: #b7ccdc;
+  background: #f2f8fc;
+}
+
+.checkbox-option-wide {
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .modal {
+    padding: 1.2rem;
+    border-radius: 18px;
+  }
+
+  .checkbox-option {
+    padding: 11px 12px;
+  }
 }

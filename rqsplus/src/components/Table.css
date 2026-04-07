@@ -1,102 +1,128 @@
 .table-wrapper {
   width: 100%;
-  padding-bottom: 2rem;
+  overflow-x: auto;
+  border-radius: 20px;
 }
 
 .table {
-  display: block;
-  overflow: hidden;
-  table-layout: fixed;
+  min-width: 1500px;
   border-collapse: collapse;
-  box-shadow: 0px 10px 10px #ccc;
-  border-radius: 10px;
-  white-space: nowrap;
-  width: auto; /* Changed to auto */
-  max-width: 80%;
-  margin: auto;
-  overflow-x: auto;
-  /* Removed max-height and overflow-y properties */
+  box-shadow: 0 16px 36px rgba(23, 50, 77, 0.08);
+  border-radius: 18px;
+  width: 100%;
+  background: #fff;
 }
 
 .table thead {
   position: sticky;
   top: 0;
-  z-index: 2; /* Higher z-index than the first column to ensure it appears above */
-  background-color: #ccc;
-  color: #222;
+  z-index: 3;
+  background-color: #e9f0f5;
+  color: #17324d;
 }
 
 .table th,
 .table td {
-  padding: 0.8rem;
+  padding: 0.95rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  font-size: 0.86rem;
+  font-weight: 700;
+  border-bottom: 1px solid #d5e0e8;
 }
 
 .table td {
-  border-top: 0.5px solid #ddd;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  border-top: 1px solid #e2eaf0;
+  color: #32485a;
+  line-height: 1.5;
 }
 
 .table tbody tr:hover {
-  background-color: #eee;
+  background-color: #f7fafc;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #fbfdff;
 }
 
 .expand {
   width: 100%;
 }
 
-.label {
-  border-radius: 3px;
-  padding: 0.3rem;
-  color: white;
-}
-
-.label-draft {
-  background-color: #777;
-}
-
-.label-live {
-  background-color: #42a942;
-}
-
-.label-error {
-  background-color: #d9534f;
-}
-
 .actions {
   display: flex;
-  justify-content: space-around;
+  gap: 12px;
+  align-items: center;
 }
 
 .actions svg {
   cursor: pointer;
+  font-size: 1.05rem;
+  color: #567086;
+  transition:
+    color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.actions svg:hover {
+  color: #17324d;
+  transform: scale(1.08);
 }
 
 .delete-btn {
   color: #e10d05;
 }
 
-/* Freeze the first column */
 th:first-child,
 td:first-child {
   position: sticky;
   left: 0;
-  z-index: 1;
-  background-color: #ccc;
+  z-index: 2;
+  background-color: #eef4f8;
 }
 
 td:first-child {
-  background-color: #eee;
+  font-weight: 600;
+  background-color: #f7fafc;
 }
 
-/* Add shadow to the right of the first frozen column */
 td:first-child::after {
   content: "";
   position: absolute;
   top: 0;
-  right: -5px; /* Adjust this value to change the width of the shadow */
+  right: -10px;
   bottom: 0;
-  width: 5px; /* Adjust this value to change the width of the shadow */
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  width: 10px;
+  background: linear-gradient(to right, rgba(23, 50, 77, 0.12), rgba(0, 0, 0, 0));
   z-index: 2;
+}
+
+.wrap-cell {
+  min-width: 220px;
+  max-width: 320px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.empty-state {
+  padding: 40px 24px;
+  border: 1px dashed #bfd0de;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #f8fbfd 0%, #f2f7fb 100%);
+  text-align: center;
+}
+
+.empty-state h3 {
+  margin-bottom: 8px;
+  color: #17324d;
+}
+
+.empty-state p {
+  max-width: 520px;
+  margin: 0 auto;
+  color: #607687;
+  line-height: 1.6;
 }

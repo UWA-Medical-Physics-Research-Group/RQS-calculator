@@ -222,19 +222,19 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       }}>
       <div className="modal">
         <form className="modal-form" onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="name">First author</label>
             <input name="name" onChange={handleChange} value={formState.name} />
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="year">Year</label>
             <input name="year" onChange={handleChange} value={formState.year} />
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label>Image protocol quality</label>
-            {protocols.map((protocol) => (
-              <div key={protocol}>
-                <label>
+            <div className="checkbox-group">
+              {protocols.map((protocol) => (
+                <label className="checkbox-option" key={protocol}>
                   <input
                     type="checkbox"
                     name="imageProtocolQuality"
@@ -242,12 +242,12 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                     onChange={handleChange}
                     checked={formState.imageProtocolQuality.includes(protocol)}
                   />
-                  {protocol}
+                  <span>{protocol}</span>
                 </label>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="multipleSegmentations">
               Multiple segmentations
             </label>
@@ -259,7 +259,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="phantomStudy">Phantom study</label>
             <select
               name="phantomStudy"
@@ -269,7 +269,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="multipleTimePoints">
               Imaging at multiple time points
             </label>
@@ -281,7 +281,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="featureReduction">
               Feature reduction or adjustment for multiple testing
             </label>
@@ -297,7 +297,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               </option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="multivariable">Multivariable analysis</label>
             <select
               name="multivariable"
@@ -307,7 +307,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="biological">Biological correlates</label>
             <select
               name="biological"
@@ -317,7 +317,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="cutOff">Cut-off analysis</label>
             <select
               name="cutOff"
@@ -327,11 +327,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label>Discrimination statistics</label>
-            {discriminations.map((disc) => (
-              <div key={disc}>
-                <label>
+            <div className="checkbox-group">
+              {discriminations.map((disc) => (
+                <label className="checkbox-option" key={disc}>
                   <input
                     type="checkbox"
                     name="discrimination"
@@ -339,16 +339,16 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                     onChange={handleChange}
                     checked={formState.discrimination.includes(disc)}
                   />
-                  {disc}
+                  <span>{disc}</span>
                 </label>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label>Calibration statistics</label>
-            {calibrations.map((cal) => (
-              <div key={cal}>
-                <label>
+            <div className="checkbox-group">
+              {calibrations.map((cal) => (
+                <label className="checkbox-option" key={cal}>
                   <input
                     type="checkbox"
                     name="calibration"
@@ -356,12 +356,12 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                     onChange={handleChange}
                     checked={formState.calibration.includes(cal)}
                   />
-                  {cal}
+                  <span>{cal}</span>
                 </label>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="prospective">Prospective study</label>
             <select
               name="prospective"
@@ -371,7 +371,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+7)">Yes (+7)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="validation">Validation</label>
             <select
               name="validation"
@@ -397,14 +397,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               </option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="gold">Comparison to 'gold standard'</label>
             <select name="gold" onChange={handleChange} value={formState.gold}>
               <option value="No (0)">No (0)</option>
               <option value="Yes (+2)">Yes (+2)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="clinicalUtility">
               Potential clinical applications
             </label>
@@ -416,18 +416,18 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               <option value="Yes (+2)">Yes (+2)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label htmlFor="cost">Cost-effectiveness analysis</label>
             <select name="cost" onChange={handleChange} value={formState.cost}>
               <option value="No (0)">No (0)</option>
               <option value="Yes (+1)">Yes (+1)</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="modal-form-group">
             <label>Open science and data</label>
-            {openSources.map((openSource) => (
-              <div key={openSource}>
-                <label>
+            <div className="checkbox-group">
+              {openSources.map((openSource) => (
+                <label className="checkbox-option checkbox-option-wide" key={openSource}>
                   <input
                     type="checkbox"
                     name="open"
@@ -435,10 +435,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                     onChange={handleChange}
                     checked={formState.open.includes(openSource)}
                   />
-                  {openSource}
+                  <span>{openSource}</span>
                 </label>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {errors && <div className="error">{errors}</div>}

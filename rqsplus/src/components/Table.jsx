@@ -5,6 +5,18 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import "./Table.css";
 
 export const Table = ({ rows, deleteRow, editRow }) => {
+  if (rows.length === 0) {
+    return (
+      <div className="empty-state">
+        <h3>No papers added yet</h3>
+        <p>
+          Use <strong>Add Paper</strong> to start scoring a study. Your entries
+          are saved in this browser until you clear them.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -44,7 +56,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
               <tr key={idx}>
                 <td>{row.name}</td>
                 <td>{row.year}</td>
-                <td className="expand">
+                <td className="expand wrap-cell">
                   {row.imageProtocolQuality.map((protocol, index) => (
                     <React.Fragment key={index}>
                       {protocol}
@@ -59,7 +71,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <td>{row.multivariable}</td>
                 <td>{row.biological}</td>
                 <td>{row.cutOff}</td>
-                <td className="expand">
+                <td className="expand wrap-cell">
                   {row.discrimination.map((disc, index) => (
                     <React.Fragment key={index}>
                       {disc}
@@ -67,7 +79,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                     </React.Fragment>
                   ))}
                 </td>
-                <td className="expand">
+                <td className="expand wrap-cell">
                   {row.calibration.map((cal, index) => (
                     <React.Fragment key={index}>
                       {cal}
@@ -76,12 +88,12 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                   ))}
                 </td>
                 <td>{row.prospective}</td>
-                <td>{row.validation}</td>
+                <td className="wrap-cell">{row.validation}</td>
                 <td>{row.gold}</td>
                 <td>{row.clinicalUtility}</td>
                 <td>{row.cost}</td>
                 {/* <td>{row.open}</td> */}
-                <td className="expand">
+                <td className="expand wrap-cell">
                   {row.open.map((openSource, index) => (
                     <React.Fragment key={index}>
                       {openSource}
